@@ -20,6 +20,7 @@ We want to determine whether or not dominant people can more accurately discern 
 ## Contributors
 * Jeffrey Nicol - Lead Researcher
 * Luke Claydon - Assistant Researcher
+* Lynne-Anne West - Assistant Researcher
 * Zeke Critchlow - Software Engineer
 
 

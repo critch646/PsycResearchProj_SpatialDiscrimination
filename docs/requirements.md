@@ -28,6 +28,9 @@ To be determined.
     * [ ] JSON
 * Deployment
   * [ ] `pyinstaller`
+* Testing
+  * [ ] `pytest`
+
 
 ## Data
 What information is being captured, processed, and stored?
