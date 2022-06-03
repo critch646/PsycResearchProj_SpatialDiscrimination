@@ -11,10 +11,10 @@ To be determined.
 * Language
   * [x] Python
 * GUI
-  * [ ] Tkinter
-  * [ ] PyQt5
-  * [ ] wxPython
-  * [ ] PySimpleGUI
+  * [ ] `Tkinter`
+  * [ ] `PyQt5`
+  * [ ] `wxPython`
+  * [ ] `PySimpleGUI`
 * Image Rendering
   * [x] Turtle
 * Output Data
@@ -26,6 +26,8 @@ To be determined.
 * Application Settings
   * File Format:
     * [ ] JSON
+* Deployment
+  * [ ] `pyinstaller`
 
 ## Data
 What information is being captured, processed, and stored?
