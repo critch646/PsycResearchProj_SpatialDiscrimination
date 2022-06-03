@@ -1,4 +1,4 @@
-# Psychology Project - Vertical Discrimination and Dominance
+# Psychology Research Project - Vertical Discrimination and Dominance
 
 "Previous research has shown that dominant individuals frequently think in terms of dominance hierarchies, which typically invoke vertical metaphor 'upper' and 'lower' class, thusly was predicted that when presented with stimuli, would more accurately discern shapes/patterns on the vertical axis..."
 
