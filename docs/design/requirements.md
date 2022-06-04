@@ -16,7 +16,8 @@ Final Product: End of Summer 2022.
   * [ ] `wxPython`
   * [ ] `PySimpleGUI`
 * Image Rendering
-  * [x] Turtle
+  * [ ] ~~Turtle~~ too slow
+  * [x] tkinter canvas
 * Output Data
   * Format:
     * [x] Excel Spreadsheet: `openpyxl`
