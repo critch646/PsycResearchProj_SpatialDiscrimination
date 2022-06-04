@@ -1,7 +1,7 @@
-# Requirements
+# Application Requirements
 
 ## Schedule
-To be determined.
+Final Product: End of Summer 2022.
 
 ## Technology
 * Operating Systems App Supports:
@@ -21,31 +21,38 @@ To be determined.
   * Format:
     * [x] Excel Spreadsheet: `openpyxl`
   * Files:
-    * [ ] Single file for all participants (compilation)
-    * [ ] Individual files for each participant
+    * [x] Single file for all participants (compilation)
+    * [x] Individual files for each participant
 * Application Settings
   * File Format:
-    * [ ] JSON
+    * [x] JSON
+  * Parameters
+    * Output directory
+    * Output: single or compilation
+* Test Settings
+  * File Format:
+    * [x] .ini (`configparser`)
+  * Parameters:
 * Deployment
-  * [ ] `pyinstaller`
+  * [x] `pyinstaller`
 * Testing
-  * [ ] `pytest`
+  * [x] `pytest`
 
 
 ## Data
 What information is being captured, processed, and stored?
 
-* [ ] Participant name?
-* [ ] Date and start time
+* [x] Participant number
+* [x] Date and start time
 * Trials:
     * [ ] Trial number (serialized)
-    * [ ] Type (dots or pqs)
+    * [ ] Stimulii pair (XS, S, M, L, XL : XS, S, M, L, XL)
     * [ ] Axis (horizontal or vertical)
-    * [ ] Participant answer
-    * [ ] Is answer correct?
+    * [ ] Participant response
+    * [ ] Is response correct?
     * [ ] Response time
 
 
 
 ## User Acceptance Tests
-
+TBD
