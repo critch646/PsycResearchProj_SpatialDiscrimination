@@ -1,5 +1,4 @@
-from enums import Orientation
-from enums import TargetSize
+from .enums import TargetSize, Orientation
 
 
 class SpatialTrial:
