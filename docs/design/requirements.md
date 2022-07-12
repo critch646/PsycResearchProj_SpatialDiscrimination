@@ -9,18 +9,14 @@ Final Product: End of Summer 2022.
   * [ ] MacOS
   * [ ] Linux
 * Language
-  * [x] Python
-* GUI
-  * [ ] `Tkinter`
-  * [ ] `PyQt5`
-  * [ ] `wxPython`
-  * [ ] `PySimpleGUI`
-* Image Rendering
-  * [ ] ~~Turtle~~ too slow
-  * [x] tkinter canvas
+  * [x] C#
+* Framework
+  * [x] .NET 6.0
+* GUI Framework
+  * [x] `Windows Presentation Foundation`
 * Output Data
   * Format:
-    * [x] Excel Spreadsheet: `openpyxl`
+    * [x] Excel Spreadsheet (How to write is TBD)
   * Files:
     * [x] Single file for all participants (compilation)
     * [x] Individual files for each participant
@@ -32,12 +28,12 @@ Final Product: End of Summer 2022.
     * Output: single or compilation
 * Test Settings
   * File Format:
-    * [x] .ini (`configparser`)
+    * [x] `.json`
   * Parameters:
 * Deployment
-  * [x] `pyinstaller`
+  * [x] `TBD`
 * Testing
-  * [x] `pytest`
+  * [x] `TBD`
 
 
 ## Data
