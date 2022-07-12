@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerticalDominance", "VerticalDominance.csproj", "{74DEE5F8-5E73-406E-A568-559651A2E27D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74DEE5F8-5E73-406E-A568-559651A2E27D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74DEE5F8-5E73-406E-A568-559651A2E27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74DEE5F8-5E73-406E-A568-559651A2E27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74DEE5F8-5E73-406E-A568-559651A2E27D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3D90FE5-2E8F-41B8-9552-1FF242D7A8E1}
+	EndGlobalSection
+EndGlobal

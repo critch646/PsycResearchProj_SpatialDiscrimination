@@ -134,3 +134,7 @@ dmypy.json
 /.idea/vcs.xml
 /.idea/.gitignore
 .idea/**
+/app/VerticalDominance/obj
+/app/VerticalDominance/.vs/VerticalDominance/v17
+/app/VerticalDominance/.vs/VerticalDominance/FileContentIndex
+/.vs
