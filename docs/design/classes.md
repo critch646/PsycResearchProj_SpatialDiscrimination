@@ -25,7 +25,7 @@
 
 ### SpatialTrial
 #### Attributes
-* `int` serialNumber (serialized)
+* `int` trialNumber (serialized)
 * `enum` orientation (horizontal/vetical)
 * `tuple` trialType (size : size)
 * `int` accuracy (0 incorrect/1 correct)
