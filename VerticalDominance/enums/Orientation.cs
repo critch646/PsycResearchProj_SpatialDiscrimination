@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VerticalDominance.enums
 {
-    enum Orientation
+    public enum Orientation
     {
         horizontal = 0,
         vertical = 1
