@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VerticalDominance.enums
 {
-    enum StimSize
+    public enum StimSize
     {
         XS = -2,
         S = -1,
