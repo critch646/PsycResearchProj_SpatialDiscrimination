@@ -14,6 +14,13 @@ namespace VerticalDominance
         public int _accuracy = -1;
         public int _responseTime = -1;
 
+
+        /// <summary>
+        /// SpatialTrial Constructor
+        /// </summary>
+        /// <param name="trialNumber">The trial's number.</param>
+        /// <param name="orientation">The trial's target orientation.</param>
+        /// <param name="trialTargets">The trial's target pair.</param>
         public SpatialTrial(int trialNumber, enums.Orientation orientation, (enums.StimSize, enums.StimSize) trialTargets)
         {
             this.TrialNumber = trialNumber;
@@ -21,6 +28,10 @@ namespace VerticalDominance
             this.TrialTargets = trialTargets;
         }
 
+
+        /// <summary>
+        /// Setter and getter for the Accuracy field.
+        /// </summary>
         public int Accuracy { 
             get { return _accuracy; }
             set 
@@ -32,6 +43,10 @@ namespace VerticalDominance
             }
         }
 
+
+        /// <summary>
+        /// Setter and getter for the ResponseTime field.
+        /// </summary>
         public int ResponseTime
         {
             get { return _responseTime; }
