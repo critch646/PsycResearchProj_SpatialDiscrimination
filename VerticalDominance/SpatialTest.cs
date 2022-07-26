@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VerticalDominance.enums;
 
 namespace VerticalDominance
 {
@@ -23,11 +24,31 @@ namespace VerticalDominance
             this._trialBlocks = new List<TrialBlock>();
         }
 
-        private void GenerateTest()
+
+        /// <summary>
+        /// Method generates blocks and trials for test.
+        /// </summary>
+        /// <param name="orientationStart">The first block will use this orientation, then will alternate.</param>
+        /// <returns>true if successful; otherwise, returns false.</returns>
+        public bool GenerateTest(Orientation orientationStart = Orientation.horizontal)
         {
             for (int i = 1; i <= this._numberOfBlocks; i++)
             {
+                TrialBlock trialBlock = new(i, orientationStart, this._trialsPerBlock);
+                this._trialBlocks.Add(trialBlock);
+                orientationStart = NextOrientation(orientationStart);
+            }
+            return true;
+        }
 
+        private Orientation NextOrientation(Orientation o)
+        {
+            if(o == Orientation.horizontal)
+            {
+                return Orientation.vertical;
+            } else
+            {
+                return Orientation.horizontal;
             }
         }
 
