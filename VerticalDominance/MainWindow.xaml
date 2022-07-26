@@ -14,15 +14,18 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="28"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Menu x:Name="MenuMainWindow" Grid.Column="0" Grid.Row="0">
+        <Menu x:Name="MenuMainWindow" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" FontSize="16" Background="#FFD0D0D0" Foreground="Black" BorderBrush="Black" Padding="2,2,2,2" ScrollViewer.CanContentScroll="True">
             <MenuItem x:Name="_Settings" Header="_Settings"/>
         </Menu>
-        <TextBox HorizontalAlignment="Center" Margin="0,288,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" FontSize="24" TextAlignment="Center" Grid.Column="1" Grid.RowSpan="2"/>
-        <Button x:Name="ButtonStartTest" Content="Start Test" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Height="60" Width="500" Grid.Column="1" Grid.Row="1"/>
-        <Label x:Name="LabelParticipantID" Content="Participant ID" Margin="0,241,0,0" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
+        <TextBox TextWrapping="Wrap" Text="1" VerticalAlignment="Center" FontSize="24" TextAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="10,0,11,0"/>
+        <Button x:Name="ButtonStartTest" Content="Start Test" FontSize="36" Grid.Row="3" Grid.Column="1" Margin="10,48,11,0" Grid.RowSpan="2"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Participant ID" VerticalAlignment="Center" TextAlignment="Center" FontSize="24" Margin="10,0,10,0"/>
     </Grid>
 </Window>
