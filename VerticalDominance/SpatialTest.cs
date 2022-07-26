@@ -41,6 +41,12 @@ namespace VerticalDominance
             return true;
         }
 
+
+        /// <summary>
+        /// Takes in Orientation enum and returns the next orientation.
+        /// </summary>
+        /// <param name="o">Orientation to increment</param>
+        /// <returns>The next orientation.</returns>
         private Orientation NextOrientation(Orientation o)
         {
             if(o == Orientation.horizontal)
