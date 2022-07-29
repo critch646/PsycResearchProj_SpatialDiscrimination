@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:VerticalDominance"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1000" WindowStartupLocation="CenterScreen" Background="White">
+        Title="MainWindow" Height="1000" Width="1000" WindowStartupLocation="CenterScreen" Background="White" Loaded="MainWindow1_Loaded">
     <Grid x:Name="GridMain" ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -22,10 +22,18 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu x:Name="MenuMainWindow" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" FontSize="16" Background="#FFD0D0D0" Foreground="Black" BorderBrush="Black" Padding="2,2,2,2" ScrollViewer.CanContentScroll="True">
-            <MenuItem x:Name="_Settings" Header="_Settings"/>
+            <MenuItem x:Name="_File" Header="File">
+                <MenuItem x:Name="_Close" Header="Close" Click="MenuClose_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="_Settings" Header="_Settings">
+                <MenuItem x:Name="_TestSettings" Header="Test Preferences" Click="MenuTestSettings_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="_Preferences" Header="Preferences">
+                <MenuItem x:Name="_AutoIncrementPID" Header="Auto Increment Participant ID" IsCheckable="True"/>
+            </MenuItem>
         </Menu>
-        <TextBox TextWrapping="Wrap" Text="1" VerticalAlignment="Center" FontSize="24" TextAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="10,0,11,0"/>
+        <xctk:IntegerUpDown x:Name="IntegerUpDown_ParticipantID" Value="1" Minimum="0" Maximum="99999" VerticalAlignment="Center" AllowSpin="True" FontSize="24" TextAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="10,0,11,0" ValueChanged="IntegerUpDown_ParticipantID_ValueChanged"/>
         <Button x:Name="ButtonStartTest" Content="Start Test" FontSize="36" Grid.Row="3" Grid.Column="1" Margin="10,48,11,0" Grid.RowSpan="2"/>
-        <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Participant ID" VerticalAlignment="Center" TextAlignment="Center" FontSize="24" Margin="10,0,10,0"/>
+        <TextBlock x:Name="TextBlockParticipantID" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Participant ID" VerticalAlignment="Center" TextAlignment="Center" FontSize="24" Margin="10,0,10,0"/>
     </Grid>
 </Window>

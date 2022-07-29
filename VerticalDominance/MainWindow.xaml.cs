@@ -24,5 +24,26 @@ namespace VerticalDominance
         {
             InitializeComponent();
         }
+
+        private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void IntegerUpDown_ParticipantID_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            
+        }
+
+        private void MenuClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void MenuTestSettings_Click(object sender, RoutedEventArgs e)
+        {
+            WindowSettingsTest windowSettingsTest = new WindowSettingsTest();
+            windowSettingsTest.ShowDialog();
+        }
     }
 }
