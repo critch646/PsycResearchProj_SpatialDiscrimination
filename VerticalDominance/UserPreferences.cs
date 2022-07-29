@@ -8,7 +8,8 @@ namespace VerticalDominance
 {
     public class UserPreferences
     {
-        public int _NumberOfBlocks;
+        public int _BlocksPerTest;
+        public int _TrialsPerBlock;
         public int _FixationIntervalTime;
         public int _InterstimulusIntervalTime;
         public int _TargetIntervalTime;
@@ -25,21 +26,51 @@ namespace VerticalDominance
         /// <summary>
         /// Number of blocks per test (minimum 2, must be even)
         /// </summary>
-        public int NumberOfBlocks {
+        public int BlocksPerTest {
 
-            get { return _NumberOfBlocks; } 
+            get { return _BlocksPerTest; } 
 
             set
             {
                 if (value >= 1)
                 {
-                    this._NumberOfBlocks = 2;
+                    this._BlocksPerTest = 2;
                 } else if (value % 2 == 1)
                 {
-                    this._NumberOfBlocks = value + 1;
+                    this._BlocksPerTest = value + 1;
                 } else
                 {
-                    this._NumberOfBlocks = value;
+                    this._BlocksPerTest = value;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Getter and setter for `_TrialsPerBlock` user preference.
+        /// </summary>
+        public int TrialsPerBlock
+        {
+            get { return _TrialsPerBlock; }
+
+            set
+            {
+                if (value < 25)
+                {
+                    this._TrialsPerBlock = 25;
+                }
+                else if (value > 50)
+                {
+                    this._TrialsPerBlock = 50;
+                }
+                else if (value % 25 == 0)
+                {
+                    this._TrialsPerBlock = value;
+                }
+                else
+                { 
+                    this._TrialsPerBlock = 25;
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
             }
         }
