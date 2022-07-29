@@ -1,0 +1,126 @@
+﻿<Window x:Class="VerticalDominance.WindowSettingsTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:VerticalDominance"
+        mc:Ignorable="d"
+        Title="Test Settings" 
+        MinHeight="460" 
+        MinWidth="300" 
+        SizeToContent="WidthAndHeight" 
+        ResizeMode="NoResize" 
+        Closing="WindowSettingsTest_Closing" 
+        ShowInTaskbar="False" 
+        WindowStartupLocation="CenterOwner"
+        FocusManager.FocusedElement="{Binding ElementName=NumberOfBlocks_IntUpDown}">
+        
+    <Grid Margin="10">
+        <Grid.Resources>
+
+            <!-- Default settings for controls-->
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Margin" Value="0,3,5,5" />
+                <Setter Property="Padding" Value="0,0,0,5" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="0,0,0,5" />
+            </Style>
+            <Style TargetType="{x:Type GroupBox}">
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="Padding" Value="10" />
+            </Style>
+            <Style TargetType="{x:Type xctk:IntegerUpDown}">
+                <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="DisplayDefaultValueOnEmptyText" Value="True" />
+            </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="70" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Margin" Value="5,0,0,0" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Test Structure -->
+        <GroupBox x:Name="TestStructure_GroupBox" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Header="Test Structure" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0">Number of Blocks</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" x:Name="NumberOfBlocks_IntUpDown" Increment="2" Maximum="10" Minimum="2" DefaultValue="4"/>
+
+                <Label Grid.Column="0" Grid.Row="1">Trials per Block</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" x:Name="TrialsPerBlock_IntUpDown" Increment="25" Maximum="50" Minimum="25" DefaultValue="25"/>
+
+            </Grid>
+
+        </GroupBox>
+
+        <!-- Interval Times-->
+        <GroupBox x:Name="IntervalTimes_GroupBox" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Header="Time Intervals">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0">Fixiation</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" x:Name="Fixation_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="500"/>
+
+                <Label Grid.Column="0" Grid.Row="1">Interstimulus</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" x:Name="Interstimulus_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="200"/>
+
+                <Label Grid.Column="0" Grid.Row="2">Targets</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" x:Name="Targets_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="200"/>
+
+                <Label Grid.Column="0" Grid.Row="3">Mask</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" x:Name="Mask_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="2000"/>
+
+                <Label Grid.Column="0" Grid.Row="4">Feedback</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" x:Name="Feedback_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="500"/>
+
+                <Label Grid.Column="0" Grid.Row="5">Intertrial</Label>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="5" x:Name="Intertrial_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="500"/>
+
+            </Grid>
+        </GroupBox>
+
+        <!-- Accept or Cancel -->
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Name="okButton" Click="OkButton_Click" IsDefault="True">OK</Button>
+            <Button Name="cancelButton" IsCancel="True">Cancel</Button>
+        </StackPanel>
+
+
+    </Grid>
+</Window>
