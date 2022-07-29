@@ -47,7 +47,7 @@ namespace VerticalDominance
         /// </summary>
         /// <param name="o">Orientation to increment</param>
         /// <returns>The next orientation.</returns>
-        private Orientation NextOrientation(Orientation o)
+        private static Orientation NextOrientation(Orientation o)
         {
             if(o == Orientation.horizontal)
             {
