@@ -17,6 +17,12 @@ namespace VerticalDominance
         public int _FeedbackIntervalTime;
         public int _IntertrialIntervalTime;
 
+
+        /// <summary>
+        /// Is auto increment participant ID enabled.
+        /// </summary>
+        public bool AutoIncrement { get; set; }
+
         /// <summary>
         /// Directory for spreadsheet where test data will be written.
         /// </summary>
