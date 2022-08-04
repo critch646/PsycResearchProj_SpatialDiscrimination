@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:VerticalDominance"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1000" WindowStartupLocation="CenterScreen" Background="White" Loaded="MainWindow1_Loaded">
-    <Grid x:Name="GridMain" ShowGridLines="True">
+    <Grid x:Name="GridMain" ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>

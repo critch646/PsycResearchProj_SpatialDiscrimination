@@ -8,14 +8,14 @@ namespace VerticalDominance
 {
     public class UserPreferences
     {
-        public int _BlocksPerTest;
-        public int _TrialsPerBlock;
-        public int _FixationIntervalTime;
-        public int _InterstimulusIntervalTime;
-        public int _TargetIntervalTime;
-        public int _MaskIntervalTime;
-        public int _FeedbackIntervalTime;
-        public int _IntertrialIntervalTime;
+        private int _BlocksPerTest;
+        private int _TrialsPerBlock;
+        private int _FixationIntervalTime;
+        private int _InterstimulusIntervalTime;
+        private int _TargetIntervalTime;
+        private int _MaskIntervalTime;
+        private int _FeedbackIntervalTime;
+        private int _IntertrialIntervalTime;
 
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace VerticalDominance
         /// <returns>A positive, non-zero integer.</returns>
         private static int ValidIntervalTime(int value)
         {
-            if (value >= 0)
+            if (value <= 99)
             {
                 return 100;
             } 
