@@ -33,5 +33,10 @@ namespace VerticalDominance
         {
 
         }
+
+        private void DefaultsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
