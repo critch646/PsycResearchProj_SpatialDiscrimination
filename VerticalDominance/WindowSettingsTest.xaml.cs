@@ -19,9 +19,15 @@ namespace VerticalDominance
     /// </summary>
     public partial class WindowSettingsTest : Window
     {
-        public WindowSettingsTest()
+
+        private UserPreferences _defaults;
+        public WindowSettingsTest(UserPreferences defaults)
         {
             InitializeComponent();
+
+            this._defaults = defaults;
+
+            
         }
 
         private void WindowSettingsTest_Closing(object sender, System.ComponentModel.CancelEventArgs e)

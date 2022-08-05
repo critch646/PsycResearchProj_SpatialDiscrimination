@@ -49,10 +49,17 @@ namespace VerticalDominance
             this._userPreferencesFilename = $"{nameof(UserPreferences)}.json";
         }
 
+
+        /// <summary>
+        /// Load user preferences from file.
+        /// </summary>
+        /// <param name="preferencesFile">Target file to read from.</param>
+        /// <returns>UserPreferences object.</returns>
         private UserPreferences LoadPreferences(String preferencesFile)
         {
             if (!File.Exists(preferencesFile))
             {
+                System.Diagnostics.Debug.WriteLine($"Preferences file does not exist.");
                 return this._defaultPreferences;
             }
 
@@ -79,17 +86,21 @@ namespace VerticalDominance
             {
                 userPref = JsonConvert.DeserializeObject<UserPreferences>(jsonData);
 
+                if (userPref != null)
+                {
+                    return userPref;
+                }
             }
-
-            if (userPref != null)
-            {
-                return userPref;
-            }
-
 
             return this._defaultPreferences;
         }
 
+
+        /// <summary>
+        /// MainWindow1 loaded event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
             this._preferences = LoadPreferences(this._userPreferencesFilename);
@@ -97,7 +108,10 @@ namespace VerticalDominance
 
         private void IntegerUpDown_ParticipantID_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            
+            if (this._preferences != null && IntegerUpDown_ParticipantID.Value != null)
+            {
+                this._preferences.CurrentParticipantID = (int)IntegerUpDown_ParticipantID.Value;
+            }
         }
 
         private void MenuClose_Click(object sender, RoutedEventArgs e)

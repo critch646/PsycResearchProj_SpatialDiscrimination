@@ -23,6 +23,13 @@ namespace VerticalDominance
         /// </summary>
         public bool AutoIncrement { get; set; }
 
+
+        /// <summary>
+        /// The current participant ID.
+        /// </summary>
+        public int CurrentParticipantID { get; set; }
+
+
         /// <summary>
         /// Directory for spreadsheet where test data will be written.
         /// </summary>
