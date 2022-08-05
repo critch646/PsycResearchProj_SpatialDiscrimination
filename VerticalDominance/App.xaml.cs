@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 
 namespace VerticalDominance
 {
@@ -13,5 +14,9 @@ namespace VerticalDominance
     /// </summary>
     public partial class App : Application
     {
+        public static IConfiguration Configuration;
+        public static AppLogging AppLogger;
+
+        // TODO: Find where to create logger instance
     }
 }
