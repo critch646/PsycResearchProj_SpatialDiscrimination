@@ -77,7 +77,8 @@ namespace VerticalDominance
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"ERROR: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine(ex);
+                log.Error(ex);
             }
 
             if (string.IsNullOrEmpty(jsonData))
