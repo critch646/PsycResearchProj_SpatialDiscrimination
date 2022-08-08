@@ -29,11 +29,11 @@
                 <MenuItem x:Name="_TestSettings" Header="Test Preferences" Click="MenuTestSettings_Click"/>
             </MenuItem>
             <MenuItem x:Name="_Preferences" Header="Preferences">
-                <MenuItem x:Name="_AutoIncrementPID" Header="Auto Increment Participant ID" IsCheckable="True"/>
+                <MenuItem x:Name="_AutoIncrementPID" Header="Auto Increment Participant ID" IsCheckable="True" Click="AutoIncrementPID_Click"/>
             </MenuItem>
         </Menu>
         <xctk:IntegerUpDown x:Name="IntegerUpDown_ParticipantID" Value="1" Minimum="0" Maximum="99999" VerticalAlignment="Center" AllowSpin="True" FontSize="24" TextAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="10,0,11,0" ValueChanged="IntegerUpDown_ParticipantID_ValueChanged"/>
-        <Button x:Name="ButtonStartTest" Content="Start Test" FontSize="36" Grid.Row="3" Grid.Column="1" Margin="10,48,11,0" Grid.RowSpan="2"/>
+        <Button x:Name="ButtonStartTest" Content="Start Test" FontSize="36" Grid.Row="3" Grid.Column="1" Margin="10,48,11,0" Grid.RowSpan="2" Click="ButtonStartTest_Click"/>
         <TextBlock x:Name="TextBlockParticipantID" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Participant ID" VerticalAlignment="Center" TextAlignment="Center" FontSize="24" Margin="10,0,10,0"/>
     </Grid>
 </Window>

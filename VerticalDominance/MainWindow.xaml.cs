@@ -65,7 +65,7 @@ namespace VerticalDominance
         {
             this._preferences = LoadPreferences(this._userPreferencesFilename);
             log.Info($"App loaded successfully.");
-
+            this._AutoIncrementPID.IsChecked = this._preferences.AutoIncrement;
 
             // Events
 
@@ -125,7 +125,7 @@ namespace VerticalDominance
                 try
                 {
                     var jsonData = JsonConvert.SerializeObject(this._preferences);
-                    File.WriteAllText($"{nameof(UserPreferences)}.json", jsonData);
+                    File.WriteAllText(this._userPreferencesFilename, jsonData);
                 }
                 catch (Exception ex)
                 {
@@ -142,6 +142,7 @@ namespace VerticalDominance
             if (this._preferences != null && IntegerUpDown_ParticipantID.Value != null)
             {
                 this._preferences.CurrentParticipantID = (int)IntegerUpDown_ParticipantID.Value;
+                SavePreferences();
             }
         }
 
@@ -175,6 +176,17 @@ namespace VerticalDominance
             }
 
 
+        }
+
+        private void ButtonStartTest_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AutoIncrementPID_Click(object sender, RoutedEventArgs e)
+        {
+            this._preferences.AutoIncrement = _AutoIncrementPID.IsChecked;
+            SavePreferences();
         }
     }
 }
