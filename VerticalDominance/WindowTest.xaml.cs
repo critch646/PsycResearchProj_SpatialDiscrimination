@@ -74,8 +74,8 @@ namespace VerticalDominance
             _timerIntertrial.Tick += _timerIntertrial_Tick;
 
             this._fixation = new FixationShape($"{nameof(FixationShape)}1");
-            this._maskShape1 = new MaskShape($"{nameof(FixationShape)}1", MaskSize);
-            this._maskShape2 = new MaskShape($"{nameof(FixationShape)}2", MaskSize);
+            this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
+            this._maskShape2 = new MaskShape($"{nameof(MaskShape)}2", MaskSize);
         }
 
         private void _timerFixation_Tick(object? sender, EventArgs e)
@@ -92,13 +92,14 @@ namespace VerticalDominance
         private void _timerInterstimulus_Tick(object? sender, EventArgs e)
         {
             _timerInterstimulus.Stop();
-            _timerTargets.Start();
+
 
             this._targetShape1 = new TargetShape($"{nameof(TargetShape)}1", StimSize.XS);
             this._targetShape2 = new TargetShape($"{nameof(TargetShape)}2", StimSize.XL);
 
 
             AddShapes(this._targetShape1.Shape, this._targetShape2.Shape);
+            _timerTargets.Start();
         }
 
         private void _timerTargets_Tick(object? sender, EventArgs e)
@@ -108,7 +109,7 @@ namespace VerticalDominance
             // Remove targets
             RemoveShapes(nameof(TargetShape));
 
-            // Add mask
+            // Add masks
             AddShapes(this._maskShape1.Shape, this._maskShape2.Shape);
 
             _timerMask.Start();
@@ -117,18 +118,61 @@ namespace VerticalDominance
         private void _timerMask_Tick(object? sender, EventArgs e)
         {
             _timerMask.Stop();
+
+            // Remove masks
+            RemoveShapes(nameof(MaskShape));
+
+            // Show feedback
+            FlowDocument feedback = new FlowDocument();
+            feedback.Name = "Feedback_FlowDocument";
+            feedback.TextAlignment = TextAlignment.Center;
+
+
+            Run feedbackText = new Run("Feedback");
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(feedbackText);
+
+
+            feedback.Blocks.Add(paragraph);
+
+            RichTextBox feedbackRichText = new RichTextBox(feedback);
+
+            feedbackRichText.Width = 500;
+            feedbackRichText.Height = 500;
+            feedbackRichText.BorderThickness = new Thickness(0);
+            feedbackRichText.FontSize = 48;
+
+            feedbackRichText.Uid = nameof(RichTextBox);
+
+            CanvasTest.Children.Add(feedbackRichText);
+
+            Canvas.SetLeft(feedbackRichText, (CanvasTest.Width / 2) - (feedbackRichText.Width / 2));
+            Canvas.SetTop(feedbackRichText, (CanvasTest.Height / 2) - (feedbackRichText.Height / 2));
+
+
             _timerFeedback.Start();
         }
 
         private void _timerFeedback_Tick(object? sender, EventArgs e)
         {
             _timerFeedback.Stop();
+
+            // Remove feedback
+            RemoveShapes(nameof(RichTextBox));
+
             _timerIntertrial.Start();
         }
 
         private void _timerIntertrial_Tick(object? sender, EventArgs e)
         {
             _timerIntertrial.Stop();
+
+            if (_isTestRunning)
+            {
+                _timerFixation.Start();
+                DrawFixation();
+            }
 
         }
 
@@ -137,8 +181,11 @@ namespace VerticalDominance
         {
             List<UIElement> itemstoremove = new List<UIElement>();
 
+            System.Diagnostics.Debug.WriteLine($"Looking for: {victimName}");
+
             foreach (UIElement ui in CanvasTest.Children)
             {
+                System.Diagnostics.Debug.WriteLine($"\t {ui.Uid}");
                 if (ui.Uid.StartsWith(victimName))
                 {
                     itemstoremove.Add(ui);
@@ -187,7 +234,12 @@ namespace VerticalDominance
             }
         }
 
-
+        private void DrawFixation()
+        {
+            CanvasTest.Children.Add(_fixation.Shape);
+            Canvas.SetLeft(_fixation.Shape, (CanvasTest.Width / 2) - (_fixation.Width / 2));
+            Canvas.SetTop(_fixation.Shape, (CanvasTest.Height / 2) - (_fixation.Height / 2));
+        }
 
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -196,6 +248,16 @@ namespace VerticalDominance
             {
                 System.Diagnostics.Debug.WriteLine("Spaebar pressed");
                 RunTest();
+            }
+
+            
+            if (this._currentOrientation == enums.Orientation.horizontal)
+            {
+                // Check for Left/Right Arrow keys
+            }
+            else
+            {
+                // Check for Up/Down Arrow keys
             }
         }
 
@@ -208,22 +270,10 @@ namespace VerticalDominance
             // Instructions
             this.Instructions.Visibility = Visibility.Collapsed;
 
-            // FixationShape
+            // Fixation start
             _timerFixation.Start();
+            DrawFixation();
 
-            CanvasTest.Children.Add(_fixation.Shape);
-            Canvas.SetLeft(_fixation.Shape, (CanvasTest.Width / 2) - (_fixation.Width / 2));
-            Canvas.SetTop(_fixation.Shape, (CanvasTest.Height / 2) - (_fixation.Height / 2));
-
-            // Interstimulus
-
-            // Targets
-
-            // Mask
-
-            // Feedback
-
-            // Intertrial
 
         }
 

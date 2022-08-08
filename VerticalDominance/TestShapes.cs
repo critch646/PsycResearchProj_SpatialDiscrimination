@@ -158,7 +158,8 @@ namespace VerticalDominance
                 Width = size, 
                 Height = size,
                 Stroke = this.Stroke,
-                Fill = this.Fill
+                Fill = this.Fill,
+                Uid = uid
             };
 
         }
