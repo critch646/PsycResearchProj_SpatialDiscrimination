@@ -6,7 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Extensions.Configuration;
+using log4net;
 
 namespace VerticalDominance
 {
@@ -15,17 +15,14 @@ namespace VerticalDominance
     /// </summary>
     public partial class App : Application
     {
-        public static IConfiguration Configuration;
-        public static AppLogging AppLogger;
 
         // TODO: Find where to create logger instance
-
-        App()
+        private static readonly ILog log = LogManager.GetLogger(typeof(App));
+        protected override void OnStartup(StartupEventArgs e)
         {
-            AppLogger = new AppLogging();
-            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            Configuration = builder.Build();
-
+            log4net.Config.XmlConfigurator.Configure();
+            log.Info("        =============  Started Logging  =============        ");
+            base.OnStartup(e);
         }
     }
 }

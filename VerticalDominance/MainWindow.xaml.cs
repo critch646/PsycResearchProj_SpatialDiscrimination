@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using log4net;
 
 using Newtonsoft.Json;
 
@@ -29,9 +30,13 @@ namespace VerticalDominance
         private UserPreferences _defaultPreferences;
         private string _userPreferencesFilename;
 
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public MainWindow()
         {
             InitializeComponent();
+
+            log4net.Config.XmlConfigurator.Configure();
 
             this._defaultPreferences = new UserPreferences { 
                 AutoIncrement = false,
@@ -59,7 +64,7 @@ namespace VerticalDominance
         {
             if (!File.Exists(preferencesFile))
             {
-                System.Diagnostics.Debug.WriteLine($"Preferences file does not exist.");
+                log.Error($"Preferences file does not exist.");
                 return this._defaultPreferences;
             }
 
@@ -104,8 +109,7 @@ namespace VerticalDominance
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
             this._preferences = LoadPreferences(this._userPreferencesFilename);
-            App.AppLogger.Information("App Loaded Successfully.");
-            System.Diagnostics.Debug.WriteLine("App Loaded Successfully.");
+            log.Info($"App loaded successfully.");
         }
 
         private void IntegerUpDown_ParticipantID_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
