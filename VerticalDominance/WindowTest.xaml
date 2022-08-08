@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VerticalDominance"
         mc:Ignorable="d"
-        Title="WindowTest" Height="1000" Width="1000" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="WindowTest" Height="1024" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type RichTextBox}">
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+        </Grid.Resources>
         
+        
+        <Canvas x:Name="CanvasTest" Height="1000" Width="1000">
+            <RichTextBox Name="Instructions" Height="984" Width="1000" IsReadOnly="True">
+                <FlowDocument TextAlignment="Center">
+                    <Paragraph />
+                    <Paragraph />
+                    <Paragraph />
+                    <Paragraph>
+                        <Run>Instructions</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>Press</Run>
+                        <Bold>Spacebar</Bold>
+                        <Run> to start</Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Canvas>
+
     </Grid>
 </Window>

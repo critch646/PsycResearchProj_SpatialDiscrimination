@@ -93,7 +93,7 @@ namespace VerticalDominance
                     this._settings.TrialsPerBlock = this._defaults.TrialsPerBlock;
                 }
 
-                // Fixation Time Interval
+                // FixationShape Time Interval
                 if (this.Fixation_IntUpDown.Value != null)
                 {
                     this._settings.FixationIntervalTime = (int)this.Fixation_IntUpDown.Value;
