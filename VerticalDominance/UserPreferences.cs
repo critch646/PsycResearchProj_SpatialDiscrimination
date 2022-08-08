@@ -45,7 +45,7 @@ namespace VerticalDominance
 
             set
             {
-                if (value >= 1)
+                if (value < 2)
                 {
                     this._BlocksPerTest = 2;
                 } else if (value % 2 == 1)

@@ -20,12 +20,15 @@ namespace VerticalDominance
     public partial class WindowSettingsTest : Window
     {
 
-        private UserPreferences _defaults;
-        public WindowSettingsTest(UserPreferences defaults)
+        private readonly UserPreferences _defaults;
+        private readonly UserPreferences _settings;
+        public WindowSettingsTest(UserPreferences defaults, UserPreferences settings)
         {
+            this._defaults = defaults;
+            this._settings = settings;
+            this.DataContext = this._settings;
             InitializeComponent();
 
-            this._defaults = defaults;
 
             
         }
@@ -42,7 +45,14 @@ namespace VerticalDominance
 
         private void DefaultsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            this.BlocksPerTest_IntUpDown.Value = this._defaults.BlocksPerTest;
+            this.TrialsPerBlock_IntUpDown.Value = this._defaults.TrialsPerBlock;
+            this.Fixation_IntUpDown.Value = this._defaults.FixationIntervalTime;
+            this.Interstimulus_IntUpDown.Value = this._defaults.InterstimulusIntervalTime;
+            this.Targets_IntUpDown.Value = this._defaults.TargetIntervalTime;
+            this.Mask_IntUpDown.Value = this._defaults.MaskIntervalTime;
+            this.Feedback_IntUpDown.Value = this._defaults.FeedbackIntervalTime;
+            this.Intertrial_IntUpDown.Value = this._defaults.IntertrialIntervalTime;
         }
     }
 }

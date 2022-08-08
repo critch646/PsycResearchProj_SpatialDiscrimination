@@ -128,7 +128,7 @@ namespace VerticalDominance
 
         private void MenuTestSettings_Click(object sender, RoutedEventArgs e)
         {
-            WindowSettingsTest windowSettingsTest = new WindowSettingsTest(this._defaultPreferences);
+            WindowSettingsTest windowSettingsTest = new (this._defaultPreferences, this._preferences);
             windowSettingsTest.ShowDialog();
         }
     }
