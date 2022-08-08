@@ -10,7 +10,7 @@ using VerticalDominance.enums;
 
 namespace VerticalDominance
 {
-    public abstract class TestShapes
+    public abstract class TestShape
     { 
         public abstract string Name { get; }
         public abstract string Uid { get; set; }
@@ -24,7 +24,7 @@ namespace VerticalDominance
 
     }
 
-    public class FixationShape : TestShapes
+    public class FixationShape : TestShape
     {
         public override string Name => nameof(FixationShape);
 
@@ -88,7 +88,7 @@ namespace VerticalDominance
         }
     }
 
-    public class TargetShape : TestShapes
+    public class TargetShape : TestShape
     {
         public override string Name => nameof(TargetShape);
 
@@ -129,6 +129,38 @@ namespace VerticalDominance
         private int CalcTargetSize()
         {
             return 100 + (int)this.StimSize * 5;
+        }
+    }
+
+    public class MaskShape : TestShape
+    {
+        public override string Name => nameof(MaskShape);
+
+        public override string Uid { get; set; }
+
+        public override Brush Stroke => Brushes.Black;
+
+        public override Brush Fill => Brushes.Gray;
+
+        public override int Width { get; set; }
+
+        public override int Height { get; set; }
+
+        public Rectangle Shape { get; private set; }
+
+        public MaskShape(string uid, int size)
+        {
+            Uid = uid;
+            Width = size;
+            Height = size;
+
+            Shape = new Rectangle { 
+                Width = size, 
+                Height = size,
+                Stroke = this.Stroke,
+                Fill = this.Fill
+            };
+
         }
     }
 }

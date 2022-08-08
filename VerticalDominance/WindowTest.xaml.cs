@@ -24,6 +24,7 @@ namespace VerticalDominance
         private UserPreferences _settings;
         private SpatialTest _test;
         private readonly int DrawingPadding = 100;
+        private readonly int MaskSize = 150;
 
         private bool _isTestRunning = false;
         private int _score = 0;
@@ -35,6 +36,8 @@ namespace VerticalDominance
         private FixationShape _fixation;
         private TargetShape _targetShape1;
         private TargetShape _targetShape2;
+        private MaskShape _maskShape1;
+        private MaskShape _maskShape2;
 
         private DispatcherTimer _timerFixation;
         private DispatcherTimer _timerInterstimulus;
@@ -71,6 +74,8 @@ namespace VerticalDominance
             _timerIntertrial.Tick += _timerIntertrial_Tick;
 
             this._fixation = new FixationShape($"{nameof(FixationShape)}1");
+            this._maskShape1 = new MaskShape($"{nameof(FixationShape)}1", MaskSize);
+            this._maskShape2 = new MaskShape($"{nameof(FixationShape)}2", MaskSize);
         }
 
         private void _timerFixation_Tick(object? sender, EventArgs e)
@@ -92,38 +97,8 @@ namespace VerticalDominance
             this._targetShape1 = new TargetShape($"{nameof(TargetShape)}1", StimSize.XS);
             this._targetShape2 = new TargetShape($"{nameof(TargetShape)}2", StimSize.XL);
 
-            CanvasTest.Children.Add(_targetShape1.Shape);
-            CanvasTest.Children.Add(_targetShape2.Shape);
 
-            // Display targets horizontally
-            if (this._currentOrientation == enums.Orientation.horizontal)
-            {
-                // Set first target to the left side of the canvas.
-                Canvas.SetLeft(_targetShape1.Shape, DrawingPadding - (_targetShape1.Shape.Width / 2));
-                //Canvas.SetLeft(_targetShape1.Shape, DrawingPadding);
-                Canvas.SetTop(_targetShape1.Shape, (CanvasTest.Height / 2) - (_targetShape1.Shape.Height /2));
-
-                // Set first target to the right side of the canvas.
-                Canvas.SetRight(_targetShape2.Shape, DrawingPadding - (_targetShape2.Shape.Width / 2));
-                //Canvas.SetRight(_targetShape2.Shape, DrawingPadding);
-                Canvas.SetTop(_targetShape2.Shape, (CanvasTest.Height / 2) - (_targetShape2.Shape.Height / 2));
-
-            } 
-            
-            // Display targets vertically
-            else
-            {
-                // Set first target to the left side of the canvas.
-                Canvas.SetLeft(_targetShape1.Shape, (CanvasTest.Width / 2) - (_targetShape1.Shape.Width / 2));
-                //Canvas.SetLeft(_targetShape1.Shape, DrawingPadding);
-                Canvas.SetTop(_targetShape1.Shape, DrawingPadding - (_targetShape1.Shape.Width / 2));
-
-                // Set first target to the right side of the canvas.
-                Canvas.SetLeft(_targetShape2.Shape, (CanvasTest.Width / 2) - (_targetShape2.Shape.Width / 2));
-                //Canvas.SetRight(_targetShape2.Shape, DrawingPadding);
-                Canvas.SetBottom(_targetShape2.Shape, DrawingPadding - (_targetShape2.Shape.Width / 2));
-            }
-
+            AddShapes(this._targetShape1.Shape, this._targetShape2.Shape);
         }
 
         private void _timerTargets_Tick(object? sender, EventArgs e)
@@ -134,6 +109,7 @@ namespace VerticalDominance
             RemoveShapes(nameof(TargetShape));
 
             // Add mask
+            AddShapes(this._maskShape1.Shape, this._maskShape2.Shape);
 
             _timerMask.Start();
         }
@@ -174,6 +150,41 @@ namespace VerticalDominance
                 CanvasTest.Children.Remove(ui);
             }
 
+        }
+
+        private void AddShapes(Shape shape1, Shape shape2)
+        {
+            CanvasTest.Children.Add(shape1);
+            CanvasTest.Children.Add(shape2);
+
+            // Display targets horizontally
+            if (this._currentOrientation == enums.Orientation.horizontal)
+            {
+                // Set first target to the left side of the canvas.
+                Canvas.SetLeft(shape1, DrawingPadding - (shape1.Width / 2));
+                //Canvas.SetLeft(_targetShape1.Shape, DrawingPadding);
+                Canvas.SetTop(shape1, (CanvasTest.Height / 2) - (shape1.Height / 2));
+
+                // Set first target to the right side of the canvas.
+                Canvas.SetRight(shape2, DrawingPadding - (shape2.Width / 2));
+                //Canvas.SetRight(_targetShape2.Shape, DrawingPadding);
+                Canvas.SetTop(shape2, (CanvasTest.Height / 2) - (shape2.Height / 2));
+
+            }
+
+            // Display targets vertically
+            else
+            {
+                // Set first target to the left side of the canvas.
+                Canvas.SetLeft(shape1, (CanvasTest.Width / 2) - (shape1.Width / 2));
+                //Canvas.SetLeft(_targetShape1.Shape, DrawingPadding);
+                Canvas.SetTop(shape1, DrawingPadding - (shape1.Width / 2));
+
+                // Set first target to the right side of the canvas.
+                Canvas.SetLeft(shape2, (CanvasTest.Width / 2) - (shape2.Width / 2));
+                //Canvas.SetRight(_targetShape2.Shape, DrawingPadding);
+                Canvas.SetBottom(shape2, DrawingPadding - (shape2.Width / 2));
+            }
         }
 
 
