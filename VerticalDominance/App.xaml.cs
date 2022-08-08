@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,5 +19,13 @@ namespace VerticalDominance
         public static AppLogging AppLogger;
 
         // TODO: Find where to create logger instance
+
+        App()
+        {
+            AppLogger = new AppLogging();
+            var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            Configuration = builder.Build();
+
+        }
     }
 }

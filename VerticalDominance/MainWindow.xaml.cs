@@ -104,6 +104,8 @@ namespace VerticalDominance
         private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
         {
             this._preferences = LoadPreferences(this._userPreferencesFilename);
+            App.AppLogger.Information("App Loaded Successfully.");
+            System.Diagnostics.Debug.WriteLine("App Loaded Successfully.");
         }
 
         private void IntegerUpDown_ParticipantID_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
