@@ -15,9 +15,9 @@ namespace VerticalDominance
         public int _trialsPerBlock;
         public List<TrialBlock> _trialBlocks;
 
-        public SpatialTest(DateTime dateTime, int participantNumber, int numberOfBlocks, int trialsPerBlock)
+        public SpatialTest(int participantNumber, int numberOfBlocks, int trialsPerBlock)
         {
-            this._dateTime = dateTime;
+            this._dateTime = DateTime.Now;
             this._participantNumber = participantNumber;
             this._numberOfBlocks = numberOfBlocks;
             this._trialsPerBlock = trialsPerBlock;

@@ -180,7 +180,8 @@ namespace VerticalDominance
 
         private void ButtonStartTest_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            WindowTest windowTest = new(this._preferences);
+            windowTest.ShowDialog();
         }
 
         private void AutoIncrementPID_Click(object sender, RoutedEventArgs e)
