@@ -68,10 +68,10 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Column="0" Grid.Row="0">Blocks per Test</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" x:Name="BlocksPerTest_IntUpDown" Increment="2" Maximum="10" Minimum="2" DefaultValue="{Binding BlocksPerTest, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" x:Name="BlocksPerTest_IntUpDown" Increment="2" Maximum="10" Minimum="2" DefaultValue="{Binding BlocksPerTest, Mode = OneWay}" ValueChanged="BlocksPerTest_IntUpDown_ValueChanged"/>
 
                 <Label Grid.Column="0" Grid.Row="1">Trials per Block</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" x:Name="TrialsPerBlock_IntUpDown" Increment="25" Maximum="50" Minimum="25" DefaultValue="{Binding TrialsPerBlock, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" x:Name="TrialsPerBlock_IntUpDown" Increment="25" Maximum="50" Minimum="25" DefaultValue="{Binding TrialsPerBlock, Mode = OneWay}" ValueChanged="TrialsPerBlock_IntUpDown_ValueChanged"/>
 
             </Grid>
 
@@ -95,22 +95,22 @@
                 </Grid.RowDefinitions>
 
                 <Label Grid.Column="0" Grid.Row="0">Fixiation</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" x:Name="Fixation_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding FixationIntervalTime, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" x:Name="Fixation_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding FixationIntervalTime, Mode = OneWay}" ValueChanged="Fixation_IntUpDown_ValueChanged"/>
 
                 <Label Grid.Column="0" Grid.Row="1">Interstimulus</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" x:Name="Interstimulus_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding InterstimulusIntervalTime, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="1" x:Name="Interstimulus_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding InterstimulusIntervalTime, Mode = OneWay}" ValueChanged="Interstimulus_IntUpDown_ValueChanged"/>
 
                 <Label Grid.Column="0" Grid.Row="2">Targets</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" x:Name="Targets_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding TargetIntervalTime, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="2" x:Name="Targets_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding TargetIntervalTime, Mode = OneWay}" ValueChanged="Targets_IntUpDown_ValueChanged"/>
 
                 <Label Grid.Column="0" Grid.Row="3">Mask</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" x:Name="Mask_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding MaskIntervalTime, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="3" x:Name="Mask_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding MaskIntervalTime, Mode = OneWay}" ValueChanged="Mask_IntUpDown_ValueChanged"/>
 
                 <Label Grid.Column="0" Grid.Row="4">Feedback</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" x:Name="Feedback_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding FeedbackIntervalTime, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="4" x:Name="Feedback_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding FeedbackIntervalTime, Mode = OneWay}" ValueChanged="Feedback_IntUpDown_ValueChanged"/>
 
                 <Label Grid.Column="0" Grid.Row="5">Intertrial</Label>
-                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="5" x:Name="Intertrial_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding IntertrialIntervalTime, Mode = OneWay}"/>
+                <xctk:IntegerUpDown Grid.Column="1" Grid.Row="5" x:Name="Intertrial_IntUpDown" Increment="100" Maximum="10000" Minimum="100" DefaultValue="{Binding IntertrialIntervalTime, Mode = OneWay}" ValueChanged="Intertrial_IntUpDown_ValueChanged"/>
 
             </Grid>
         </GroupBox>

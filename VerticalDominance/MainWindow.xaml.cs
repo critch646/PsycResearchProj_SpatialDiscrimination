@@ -52,6 +52,23 @@ namespace VerticalDominance
             };
 
             this._userPreferencesFilename = $"{nameof(UserPreferences)}.json";
+
+
+        }
+
+        /// <summary>
+        /// MainWindow1 loaded event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
+        {
+            this._preferences = LoadPreferences(this._userPreferencesFilename);
+            log.Info($"App loaded successfully.");
+
+
+            // Events
+
         }
 
 
@@ -101,17 +118,24 @@ namespace VerticalDominance
             return this._defaultPreferences;
         }
 
-
-        /// <summary>
-        /// MainWindow1 loaded event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainWindow1_Loaded(object sender, RoutedEventArgs e)
+        private void SavePreferences()
         {
-            this._preferences = LoadPreferences(this._userPreferencesFilename);
-            log.Info($"App loaded successfully.");
+            if (this._preferences != null)
+            {
+                try
+                {
+                    var jsonData = JsonConvert.SerializeObject(this._preferences);
+                    File.WriteAllText($"{nameof(UserPreferences)}.json", jsonData);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
         }
+
+
+
 
         private void IntegerUpDown_ParticipantID_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
@@ -128,8 +152,29 @@ namespace VerticalDominance
 
         private void MenuTestSettings_Click(object sender, RoutedEventArgs e)
         {
-            WindowSettingsTest windowSettingsTest = new (this._defaultPreferences, this._preferences);
+            WindowSettingsTest windowSettingsTest = new(this._defaultPreferences, this._preferences);
+            windowSettingsTest.OkButtonClicked += WindowSettingsTest_OkButtonClicked;
+
             windowSettingsTest.ShowDialog();
+        }
+
+        private void WindowSettingsTest_OkButtonClicked(object? sender, TestSettingsChangedEventArgs e)
+        {
+            if (e != null)
+            {
+                this._preferences.BlocksPerTest = e.UserPreferences.BlocksPerTest;
+                this._preferences.TrialsPerBlock = e.UserPreferences.TrialsPerBlock;
+                this._preferences.FixationIntervalTime = e.UserPreferences.FixationIntervalTime;
+                this._preferences.InterstimulusIntervalTime = e.UserPreferences.InterstimulusIntervalTime;
+                this._preferences.TargetIntervalTime = e.UserPreferences.TargetIntervalTime;
+                this._preferences.MaskIntervalTime = e.UserPreferences.MaskIntervalTime;
+                this._preferences.FeedbackIntervalTime = e.UserPreferences.FeedbackIntervalTime;
+                this._preferences.IntertrialIntervalTime = e.UserPreferences.IntertrialIntervalTime;
+
+                SavePreferences();
+            }
+
+
         }
     }
 }
