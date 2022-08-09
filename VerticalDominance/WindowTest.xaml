@@ -14,7 +14,7 @@
         </Grid.Resources>
         
         
-        <Canvas x:Name="CanvasTest" Height="1000" Width="1000">
+        <Canvas x:Name="CanvasTest" Height="1000" Width="1000" IsMouseDirectlyOverChanged="CanvasTest_IsMouseDirectlyOverChanged">
             <RichTextBox Name="Instructions" Height="984" Width="1000" IsReadOnly="True">
                 <FlowDocument TextAlignment="Center">
                     <Paragraph />
