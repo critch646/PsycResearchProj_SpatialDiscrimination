@@ -24,21 +24,21 @@ namespace VerticalDominance
         private int _score = 0;
         private enums.Orientation _currentOrientation;
 
-        private TrialBlock _currentBlock;
-        private SpatialTest _currentTrial;
+        private TrialBlock? _currentBlock = null;
+        private SpatialTest? _currentTrial = null;
 
-        private FixationShape _fixation;
-        private TargetShape _targetShape1;
-        private TargetShape _targetShape2;
-        private MaskShape _maskShape1;
-        private MaskShape _maskShape2;
+        private FixationShape? _fixation = null;
+        private TargetShape? _targetShape1 = null;
+        private TargetShape? _targetShape2 = null;
+        private MaskShape? _maskShape1 = null;
+        private MaskShape? _maskShape2 = null;
 
-        private DispatcherTimer _timerFixation;
-        private DispatcherTimer _timerInterstimulus;
-        private DispatcherTimer _timerTargets;
-        private DispatcherTimer _timerMask;
-        private DispatcherTimer _timerFeedback;
-        private DispatcherTimer _timerIntertrial;
+        private DispatcherTimer? _timerFixation = null;
+        private DispatcherTimer? _timerInterstimulus = null;
+        private DispatcherTimer? _timerTargets = null;
+        private DispatcherTimer? _timerMask = null;
+        private DispatcherTimer? _timerFeedback = null;
+        private DispatcherTimer? _timerIntertrial = null;
 
         public WindowTest(UserPreferences settings)
         {
