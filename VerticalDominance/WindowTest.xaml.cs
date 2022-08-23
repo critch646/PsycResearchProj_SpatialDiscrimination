@@ -33,12 +33,12 @@ namespace VerticalDominance
         private MaskShape? _maskShape1 = null;
         private MaskShape? _maskShape2 = null;
 
-        private DispatcherTimer? _timerFixation = null;
-        private DispatcherTimer? _timerInterstimulus = null;
-        private DispatcherTimer? _timerTargets = null;
-        private DispatcherTimer? _timerMask = null;
-        private DispatcherTimer? _timerFeedback = null;
-        private DispatcherTimer? _timerIntertrial = null;
+        private DispatcherTimer _timerFixation;
+        private DispatcherTimer _timerInterstimulus;
+        private DispatcherTimer _timerTargets;
+        private DispatcherTimer _timerMask;
+        private DispatcherTimer _timerFeedback;
+        private DispatcherTimer _timerIntertrial;
 
         public WindowTest(UserPreferences settings)
         {
