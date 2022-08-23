@@ -48,11 +48,7 @@ namespace VerticalDominance
             this._test = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
 
             _currentOrientation = enums.Orientation.vertical;
-            
-        }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
             _timerFixation = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.FixationIntervalTime) };
             _timerInterstimulus = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.InterstimulusIntervalTime) };
             _timerTargets = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.TargetIntervalTime) };
@@ -66,6 +62,12 @@ namespace VerticalDominance
             _timerMask.Tick += _timerMask_Tick;
             _timerFeedback.Tick += _timerFeedback_Tick;
             _timerIntertrial.Tick += _timerIntertrial_Tick;
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
 
             this._fixation = new FixationShape($"{nameof(FixationShape)}1");
             this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
@@ -117,33 +119,7 @@ namespace VerticalDominance
             RemoveShapes(nameof(MaskShape));
 
             // Show feedback
-            FlowDocument feedback = new FlowDocument();
-            feedback.Name = "Feedback_FlowDocument";
-            feedback.TextAlignment = TextAlignment.Center;
-
-
-            Run feedbackText = new Run("Feedback");
-
-            Paragraph paragraph = new Paragraph();
-            paragraph.Inlines.Add(feedbackText);
-
-
-            feedback.Blocks.Add(paragraph);
-
-            RichTextBox feedbackRichText = new RichTextBox(feedback);
-
-            feedbackRichText.Width = 500;
-            feedbackRichText.Height = 500;
-            feedbackRichText.BorderThickness = new Thickness(0);
-            feedbackRichText.FontSize = 48;
-
-            feedbackRichText.Uid = nameof(RichTextBox);
-
-            CanvasTest.Children.Add(feedbackRichText);
-
-            Canvas.SetLeft(feedbackRichText, (CanvasTest.Width / 2) - (feedbackRichText.Width / 2));
-            Canvas.SetTop(feedbackRichText, (CanvasTest.Height / 2) - (feedbackRichText.Height / 2));
-
+            ShowFeedback();
 
             _timerFeedback.Start();
         }
@@ -175,11 +151,9 @@ namespace VerticalDominance
         {
             List<UIElement> itemstoremove = new List<UIElement>();
 
-            System.Diagnostics.Debug.WriteLine($"Looking for: {victimName}");
 
             foreach (UIElement ui in CanvasTest.Children)
             {
-                System.Diagnostics.Debug.WriteLine($"\t {ui.Uid}");
                 if (ui.Uid.StartsWith(victimName))
                 {
                     itemstoremove.Add(ui);
@@ -238,21 +212,50 @@ namespace VerticalDominance
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            // Check if Spacebar pressed and test is not running.
             if (e.Key == Key.Space && !_isTestRunning)
             {
-                System.Diagnostics.Debug.WriteLine("Spaebar pressed");
                 RunTest();
             }
 
-            
-            if (this._currentOrientation == enums.Orientation.horizontal)
+            // Check if Mask timer is enabled, as we only want to capture user's response only during the mask phase.
+            if (this._timerMask.IsEnabled)
             {
-                // Check for Left/Right Arrow keys
+
+                bool validResponse = false;
+
+                if (this._currentOrientation == enums.Orientation.horizontal)
+                {
+                    // TODO: Do we want to capture keys for the incorrect orientation and record the response?
+                    // Check for Left/Right Arrow keys
+                    if (e.Key == Key.Left || e.Key == Key.Right)
+                    {
+                        validResponse = true;
+                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
+                    }
+
+
+                }
+                else
+                {
+                    // Check for Up/Down Arrow keys
+                    if (e.Key == Key.Up || e.Key == Key.Down)
+                    {
+                        validResponse = true;
+                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
+                    }
+                }
+
+                if (validResponse)
+                {
+                    this._timerMask.Stop();
+                    RemoveShapes(nameof(MaskShape));
+                    ShowFeedback();
+                    this._timerFeedback.Start();
+                }
+
             }
-            else
-            {
-                // Check for Up/Down Arrow keys
-            }
+
         }
 
         private void RunTest()
@@ -278,6 +281,36 @@ namespace VerticalDominance
             {
                 Cursor = Cursors.None;
             }
+        }
+
+        private void ShowFeedback()
+        {
+            FlowDocument feedback = new FlowDocument();
+            feedback.Name = "Feedback_FlowDocument";
+            feedback.TextAlignment = TextAlignment.Center;
+
+
+            Run feedbackText = new Run("Feedback");
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.Inlines.Add(feedbackText);
+
+
+            feedback.Blocks.Add(paragraph);
+
+            RichTextBox feedbackRichText = new RichTextBox(feedback);
+
+            feedbackRichText.Width = 500;
+            feedbackRichText.Height = 500;
+            feedbackRichText.BorderThickness = new Thickness(0);
+            feedbackRichText.FontSize = 48;
+
+            feedbackRichText.Uid = nameof(RichTextBox);
+
+            CanvasTest.Children.Add(feedbackRichText);
+
+            Canvas.SetLeft(feedbackRichText, (CanvasTest.Width / 2) - (feedbackRichText.Width / 2));
+            Canvas.SetTop(feedbackRichText, (CanvasTest.Height / 2) - (feedbackRichText.Height / 2));
         }
     }
 }
