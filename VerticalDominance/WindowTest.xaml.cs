@@ -18,6 +18,8 @@ namespace VerticalDominance
     {
         private UserPreferences _settings;
         private SpatialTest _test;
+        private SpatialTest _testResults;
+
         private readonly int DrawingPadding = 100;
         private readonly int MaskSize = 150;
 
@@ -34,22 +36,23 @@ namespace VerticalDominance
         private MaskShape? _maskShape1 = null;
         private MaskShape? _maskShape2 = null;
 
-        private DispatcherTimer _timerFixation;
-        private DispatcherTimer _timerInterstimulus;
-        private DispatcherTimer _timerTargets;
-        private DispatcherTimer _timerMask;
-        private DispatcherTimer _timerFeedback;
-        private DispatcherTimer _timerIntertrial;
+        private readonly DispatcherTimer _timerFixation;
+        private readonly DispatcherTimer _timerInterstimulus;
+        private readonly DispatcherTimer _timerTargets;
+        private readonly DispatcherTimer _timerMask;
+        private readonly DispatcherTimer _timerFeedback;
+        private readonly DispatcherTimer _timerIntertrial;
 
         private Stopwatch _stopWatch;
 
-        private SpatialTest _currentTest;
         public WindowTest(UserPreferences settings, SpatialTest test)
         {
             InitializeComponent();
 
             this._settings = settings;
             this._test = test;
+
+            this._testResults = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
 
             _currentOrientation = enums.Orientation.vertical;
 
@@ -128,7 +131,7 @@ namespace VerticalDominance
             RemoveShapes(nameof(MaskShape));
 
             // Show feedback
-            ShowFeedback();
+            ShowFeedback(false);
 
             _timerFeedback.Start();
         }
@@ -276,7 +279,7 @@ namespace VerticalDominance
                     // TODO: Evaluate user's response with current spatial trial
                     
                     
-                    ShowFeedback();
+                    ShowFeedback(true);
                     this._timerFeedback.Start();
                 }
 
@@ -292,6 +295,11 @@ namespace VerticalDominance
 
             // Instructions
             this.Instructions.Visibility = Visibility.Collapsed;
+
+            // Setup test
+            this._currentBlock = this._test.TrialBlocks[0];
+
+
 
             // Fixation start
             _timerFixation.Start();
@@ -309,7 +317,7 @@ namespace VerticalDominance
             }
         }
 
-        private void ShowFeedback()
+        private void ShowFeedback(bool correct)
         {
             FlowDocument feedback = new FlowDocument();
             feedback.Name = "Feedback_FlowDocument";
@@ -338,5 +346,7 @@ namespace VerticalDominance
             Canvas.SetLeft(feedbackRichText, (CanvasTest.Width / 2) - (feedbackRichText.Width / 2));
             Canvas.SetTop(feedbackRichText, (CanvasTest.Height / 2) - (feedbackRichText.Height / 2));
         }
+
+        
     }
 }
