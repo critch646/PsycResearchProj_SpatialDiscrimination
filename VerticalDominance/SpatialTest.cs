@@ -13,7 +13,7 @@ namespace VerticalDominance
         public int _participantNumber;
         public int _numberOfBlocks;
         public int _trialsPerBlock;
-        public List<TrialBlock> _trialBlocks;
+        public List<TrialBlock> TrialBlocks;
 
         public SpatialTest(int participantNumber, int numberOfBlocks, int trialsPerBlock)
         {
@@ -21,7 +21,7 @@ namespace VerticalDominance
             this._participantNumber = participantNumber;
             this._numberOfBlocks = numberOfBlocks;
             this._trialsPerBlock = trialsPerBlock;
-            this._trialBlocks = new List<TrialBlock>();
+            this.TrialBlocks = new List<TrialBlock>();
         }
 
 
@@ -35,7 +35,7 @@ namespace VerticalDominance
             for (int i = 1; i <= this._numberOfBlocks; i++)
             {
                 TrialBlock trialBlock = new(i, orientationStart, this._trialsPerBlock);
-                this._trialBlocks.Add(trialBlock);
+                this.TrialBlocks.Add(trialBlock);
                 orientationStart = NextOrientation(orientationStart);
             }
             return true;
