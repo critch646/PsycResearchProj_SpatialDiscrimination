@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -40,12 +41,15 @@ namespace VerticalDominance
         private DispatcherTimer _timerFeedback;
         private DispatcherTimer _timerIntertrial;
 
-        public WindowTest(UserPreferences settings)
+        private Stopwatch _stopWatch;
+
+        private SpatialTest _currentTest;
+        public WindowTest(UserPreferences settings, SpatialTest test)
         {
             InitializeComponent();
 
             this._settings = settings;
-            this._test = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
+            this._test = test;
 
             _currentOrientation = enums.Orientation.vertical;
 
@@ -56,12 +60,18 @@ namespace VerticalDominance
             _timerFeedback = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.FeedbackIntervalTime) };
             _timerIntertrial = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.IntertrialIntervalTime) };
 
-            _timerFixation.Tick += _timerFixation_Tick;
-            _timerInterstimulus.Tick += _timerInterstimulus_Tick;
-            _timerTargets.Tick += _timerTargets_Tick;
-            _timerMask.Tick += _timerMask_Tick;
-            _timerFeedback.Tick += _timerFeedback_Tick;
-            _timerIntertrial.Tick += _timerIntertrial_Tick;
+            _timerFixation.Tick += TimerFixation_Tick;
+            _timerInterstimulus.Tick += TimerInterstimulus_Tick;
+            _timerTargets.Tick += TimerTargets_Tick;
+            _timerMask.Tick += TimerMask_Tick;
+            _timerFeedback.Tick += TimerFeedback_Tick;
+            _timerIntertrial.Tick += TimerIntertrial_Tick;
+
+            _stopWatch = new Stopwatch();
+
+            this._fixation = new FixationShape($"{nameof(FixationShape)}1");
+            this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
+            this._maskShape2 = new MaskShape($"{nameof(MaskShape)}2", MaskSize);
 
         }
 
@@ -69,12 +79,9 @@ namespace VerticalDominance
         {
 
 
-            this._fixation = new FixationShape($"{nameof(FixationShape)}1");
-            this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
-            this._maskShape2 = new MaskShape($"{nameof(MaskShape)}2", MaskSize);
         }
 
-        private void _timerFixation_Tick(object? sender, EventArgs e)
+        private void TimerFixation_Tick(object? sender, EventArgs e)
         {
             _timerFixation.Stop();
             _timerInterstimulus.Start();
@@ -85,7 +92,7 @@ namespace VerticalDominance
 
 
 
-        private void _timerInterstimulus_Tick(object? sender, EventArgs e)
+        private void TimerInterstimulus_Tick(object? sender, EventArgs e)
         {
             _timerInterstimulus.Stop();
 
@@ -98,7 +105,7 @@ namespace VerticalDominance
             _timerTargets.Start();
         }
 
-        private void _timerTargets_Tick(object? sender, EventArgs e)
+        private void TimerTargets_Tick(object? sender, EventArgs e)
         {
             _timerTargets.Stop();
 
@@ -109,11 +116,13 @@ namespace VerticalDominance
             AddShapes(this._maskShape1.Shape, this._maskShape2.Shape);
 
             _timerMask.Start();
+            _stopWatch.Restart();
         }
 
-        private void _timerMask_Tick(object? sender, EventArgs e)
+        private void TimerMask_Tick(object? sender, EventArgs e)
         {
             _timerMask.Stop();
+            _stopWatch.Stop();
 
             // Remove masks
             RemoveShapes(nameof(MaskShape));
@@ -124,7 +133,7 @@ namespace VerticalDominance
             _timerFeedback.Start();
         }
 
-        private void _timerFeedback_Tick(object? sender, EventArgs e)
+        private void TimerFeedback_Tick(object? sender, EventArgs e)
         {
             _timerFeedback.Stop();
 
@@ -134,7 +143,7 @@ namespace VerticalDominance
             _timerIntertrial.Start();
         }
 
-        private void _timerIntertrial_Tick(object? sender, EventArgs e)
+        private void TimerIntertrial_Tick(object? sender, EventArgs e)
         {
             _timerIntertrial.Stop();
 
@@ -142,6 +151,13 @@ namespace VerticalDominance
             {
                 _timerFixation.Start();
                 DrawFixation();
+                if (this._currentOrientation == enums.Orientation.horizontal)
+                {
+                    this._currentOrientation = enums.Orientation.vertical;
+                } else
+                {
+                    this._currentOrientation = enums.Orientation.horizontal;
+                }
             }
 
         }
@@ -218,6 +234,9 @@ namespace VerticalDominance
                 RunTest();
             }
 
+
+
+
             // Check if Mask timer is enabled, as we only want to capture user's response only during the mask phase.
             if (this._timerMask.IsEnabled)
             {
@@ -248,8 +267,15 @@ namespace VerticalDominance
 
                 if (validResponse)
                 {
+
+                    this._stopWatch.Stop();
                     this._timerMask.Stop();
+
                     RemoveShapes(nameof(MaskShape));
+                    
+                    // TODO: Evaluate user's response with current spatial trial
+                    
+                    
                     ShowFeedback();
                     this._timerFeedback.Start();
                 }
