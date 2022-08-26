@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace VerticalDominance
 {
@@ -57,6 +58,49 @@ namespace VerticalDominance
                     _responseTime = value;
                 }
             }
+        }
+
+
+        /// <summary>
+        /// Evaluates user reponse is correct and determines accuracy. 
+        /// </summary>
+        /// <param name="response">User's key response to evaluate.</param>
+        /// <returns>True if correct; otherwise, returns false if incorect.</returns>
+        public bool EvaluateResponse(Key response)
+        {
+            if (TrialTargets.Item1 > TrialTargets.Item2)
+            {
+                if (response == Key.Left || response == Key.Up)
+                {
+                    _accuracy = 1;
+                    return true;
+                } else
+                {
+                    _accuracy = 0;
+                    return false;
+                }
+            } 
+            else if (TrialTargets.Item1 < TrialTargets.Item2)
+            {
+                if (response == Key.Right || response == Key.Down)
+                {
+                    _accuracy = 1;
+                    return true;
+                }
+                else
+                {
+                    _accuracy = 0;
+                    return false;
+                }
+            } 
+            else if (TrialTargets.Item1 == TrialTargets.Item2)
+            {
+                _accuracy = 1;
+                return true;
+            }
+
+
+            return false;
         }
     }
 }
