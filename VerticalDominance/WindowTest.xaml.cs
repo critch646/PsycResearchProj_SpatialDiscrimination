@@ -45,14 +45,14 @@ namespace VerticalDominance
 
         private Stopwatch _stopWatch;
 
-        public WindowTest(UserPreferences settings, SpatialTest test)
+        public WindowTest(UserPreferences settings)
         {
             InitializeComponent();
 
             this._settings = settings;
-            this._test = test;
+            this._test = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
 
-            this._testResults = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
+            this._testResults = this._test;
 
             _currentOrientation = enums.Orientation.vertical;
 
@@ -115,7 +115,10 @@ namespace VerticalDominance
             // Remove targets
             RemoveShapes(nameof(TargetShape));
 
-            // Add masks
+            // Create and add masks
+            this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
+            this._maskShape2 = new MaskShape($"{nameof(MaskShape)}2", MaskSize);
+
             AddShapes(this._maskShape1.Shape, this._maskShape2.Shape);
 
             _timerMask.Start();
@@ -152,15 +155,18 @@ namespace VerticalDominance
 
             if (_isTestRunning)
             {
-                _timerFixation.Start();
-                DrawFixation();
                 if (this._currentOrientation == enums.Orientation.horizontal)
                 {
                     this._currentOrientation = enums.Orientation.vertical;
-                } else
+                }
+                else
                 {
                     this._currentOrientation = enums.Orientation.horizontal;
                 }
+                _timerFixation.Start();
+                DrawFixation();
+
+
             }
 
         }
@@ -297,7 +303,7 @@ namespace VerticalDominance
             this.Instructions.Visibility = Visibility.Collapsed;
 
             // Setup test
-            this._currentBlock = this._test.TrialBlocks[0];
+            //this._currentBlock = this._test.TrialBlocks[0];
 
 
 
