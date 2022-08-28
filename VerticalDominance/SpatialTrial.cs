@@ -13,7 +13,7 @@ namespace VerticalDominance
         public enums.Orientation Orientation { get; private set; }
         public (enums.StimSize, enums.StimSize) TrialTargets { get; private set; }
         public int _accuracy = -1;
-        public int _responseTime = -1;
+        public long _responseTime = -1;
 
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace VerticalDominance
         /// The time in which the user entered their response (in milliseconds). A value of -1 indicates the user
         /// failed to respond in time.
         /// </summary>
-        public int ResponseTime
+        public long ResponseTime
         {
             get { return _responseTime; }
             private set 
@@ -67,7 +67,7 @@ namespace VerticalDominance
         /// </summary>
         /// <param name="responseKey">User's key response to evaluate.</param>
         /// <returns>True if correct; otherwise, returns false if incorect.</returns>
-        public bool EvaluateResponse(Key responseKey, int responseTime)
+        public bool EvaluateResponse(Key responseKey, long responseTime)
         {
 
             if (responseKey == Key.None)
