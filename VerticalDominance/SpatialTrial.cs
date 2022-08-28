@@ -35,7 +35,7 @@ namespace VerticalDominance
         /// </summary>
         public int Accuracy { 
             get { return _accuracy; }
-            set 
+            private set 
             { 
                 if (value >= 0)
                 {
@@ -51,9 +51,9 @@ namespace VerticalDominance
         public int ResponseTime
         {
             get { return _responseTime; }
-            set 
+            private set 
             { 
-                if (value >= 0)
+                if (value >= -1)
                 {
                     _responseTime = value;
                 }
