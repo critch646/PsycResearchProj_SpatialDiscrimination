@@ -94,10 +94,10 @@ namespace VerticalDominance
             // Check if CurrentBlockIndex is within range. If it's out of range, the test is complete.
             if (this.CurrentBlockIndex >= this.TrialBlocks.Count)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
 
 
