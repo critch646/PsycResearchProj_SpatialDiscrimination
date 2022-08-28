@@ -15,6 +15,7 @@ namespace VerticalDominance
         public (StimSize, StimSize) TrialTargets { get; private set; }
         public int _accuracy = -1;
         public long _responseTime = -1;
+        public Key _responseKey = Key.None;
 
 
         /// <summary>
@@ -64,12 +65,27 @@ namespace VerticalDominance
 
 
         /// <summary>
+        /// Key that user responded with.
+        /// </summary>
+        public Key ResponseKey
+        {
+            get { return _responseKey; }
+            private set
+            {
+                _responseKey = value;
+            }
+        }
+
+
+        /// <summary>
         /// Evaluates user reponse is correct and determines accuracy. 
         /// </summary>
         /// <param name="responseKey">User's key response to evaluate.</param>
         /// <returns>True if correct; otherwise, returns false if incorect.</returns>
         public bool EvaluateResponse(Key responseKey, long responseTime)
         {
+
+            _responseKey = responseKey;
 
             if (responseKey == Key.None)
             {
