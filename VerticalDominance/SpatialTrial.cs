@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using VerticalDominance.enums;
 
 namespace VerticalDominance
 {
     public class SpatialTrial
     {
         public int TrialID { get; set; }
-        public enums.Orientation Orientation { get; private set; }
-        public (enums.StimSize, enums.StimSize) TrialTargets { get; private set; }
+        public Orientation Orientation { get; private set; }
+        public (StimSize, StimSize) TrialTargets { get; private set; }
         public int _accuracy = -1;
         public long _responseTime = -1;
 
@@ -22,7 +23,7 @@ namespace VerticalDominance
         /// <param name="trialID">The trial's number.</param>
         /// <param name="orientation">The trial's target orientation.</param>
         /// <param name="trialTargets">The trial's target pair.</param>
-        public SpatialTrial(int trialID, enums.Orientation orientation, (enums.StimSize, enums.StimSize) trialTargets)
+        public SpatialTrial(int trialID, Orientation orientation, (StimSize, StimSize) trialTargets)
         {
             this.TrialID = trialID;
             this.Orientation = orientation;
