@@ -78,7 +78,7 @@ namespace VerticalDominance
         /// <summary>
         /// Bumps the test, incrementing the trial index and, if necessary, the block index. 
         /// </summary>
-        /// <returns>True if there are trials remaining; otherwise, returns false if the test is over.</returns>
+        /// <returns>False if there are trials remaining; otherwise, returns true if the test is over.</returns>
         public bool BumpTest()
         {
             // Increment CurrentTrialIndex
@@ -96,7 +96,7 @@ namespace VerticalDominance
             {
                 return true;
             }
-
+            System.Diagnostics.Debug.WriteLine($"Block {TrialBlocks[CurrentBlockIndex].BlockID}, Trial {TrialBlocks[CurrentBlockIndex].Trials[CurrentTrialIndex].TrialID}");
             return false;
         }
 
@@ -120,6 +120,12 @@ namespace VerticalDominance
         public (StimSize, StimSize) GetTrialTargets()
         {
             return this.TrialBlocks[this.CurrentBlockIndex].Trials[this.CurrentTrialIndex].TrialTargets;
+        }
+
+
+        public Orientation GetOrientation()
+        {
+            return TrialBlocks[this.CurrentBlockIndex].Orientation;
         }
     }
 }
