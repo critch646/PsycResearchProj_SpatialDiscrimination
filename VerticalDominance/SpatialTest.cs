@@ -16,7 +16,7 @@ namespace VerticalDominance
         public int TrialsPerBlock { get; private set; }
         public int CurrentBlockIndex { get; private set; }
         public int CurrentTrialIndex { get; private set; }
-        public List<TrialBlock> TrialBlocks;
+        public List<TrialBlock> TrialBlocks { get; private set; }
         
 
         /// <summary>
@@ -112,5 +112,14 @@ namespace VerticalDominance
             return this.TrialBlocks[this.CurrentBlockIndex].Trials[this.CurrentTrialIndex].EvaluateResponse(responseKey, responseTime);
         }
 
+
+        /// <summary>
+        /// Gets the current trial's target pair.
+        /// </summary>
+        /// <returns>A pair of StimSize targets.</returns>
+        public (StimSize, StimSize) GetTrialTargets()
+        {
+            return this.TrialBlocks[this.CurrentBlockIndex].Trials[this.CurrentTrialIndex].TrialTargets;
+        }
     }
 }
