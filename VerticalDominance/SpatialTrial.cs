@@ -9,7 +9,7 @@ namespace VerticalDominance
 {
     public class SpatialTrial
     {
-        public int TrialNumber { get; set; }
+        public int TrialID { get; set; }
         public enums.Orientation Orientation { get; private set; }
         public (enums.StimSize, enums.StimSize) TrialTargets { get; private set; }
         public int _accuracy = -1;
@@ -19,12 +19,12 @@ namespace VerticalDominance
         /// <summary>
         /// SpatialTrial Constructor
         /// </summary>
-        /// <param name="trialNumber">The trial's number.</param>
+        /// <param name="trialID">The trial's number.</param>
         /// <param name="orientation">The trial's target orientation.</param>
         /// <param name="trialTargets">The trial's target pair.</param>
-        public SpatialTrial(int trialNumber, enums.Orientation orientation, (enums.StimSize, enums.StimSize) trialTargets)
+        public SpatialTrial(int trialID, enums.Orientation orientation, (enums.StimSize, enums.StimSize) trialTargets)
         {
-            this.TrialNumber = trialNumber;
+            this.TrialID = trialID;
             this.Orientation = orientation;
             this.TrialTargets = trialTargets;
         }
@@ -46,7 +46,8 @@ namespace VerticalDominance
 
 
         /// <summary>
-        /// Setter and getter for the ResponseTime field.
+        /// The time in which the user entered their response (in milliseconds). A value of -1 indicates the user
+        /// failed to respond in time.
         /// </summary>
         public int ResponseTime
         {
@@ -64,13 +65,15 @@ namespace VerticalDominance
         /// <summary>
         /// Evaluates user reponse is correct and determines accuracy. 
         /// </summary>
-        /// <param name="response">User's key response to evaluate.</param>
+        /// <param name="responseKey">User's key response to evaluate.</param>
         /// <returns>True if correct; otherwise, returns false if incorect.</returns>
-        public bool EvaluateResponse(Key response)
+        public bool EvaluateResponse(Key responseKey, int responseTime)
         {
+            this.ResponseTime = responseTime;
+
             if (TrialTargets.Item1 > TrialTargets.Item2)
             {
-                if (response == Key.Left || response == Key.Up)
+                if (responseKey == Key.Left || responseKey == Key.Up)
                 {
                     _accuracy = 1;
                     return true;
@@ -82,7 +85,7 @@ namespace VerticalDominance
             } 
             else if (TrialTargets.Item1 < TrialTargets.Item2)
             {
-                if (response == Key.Right || response == Key.Down)
+                if (responseKey == Key.Right || responseKey == Key.Down)
                 {
                     _accuracy = 1;
                     return true;
