@@ -107,7 +107,7 @@ namespace VerticalDominance
         /// <param name="responseKey">The key the user responded with.</param>
         /// <param name="responseTime">The total time the user took to respond.</param>
         /// <returns></returns>
-        public bool EvaluateResponse(int responseTime, Key responseKey = Key.None)
+        public bool EvaluateResponse(long responseTime, Key responseKey = Key.None)
         {
             return this.TrialBlocks[this.CurrentBlockIndex].Trials[this.CurrentTrialIndex].EvaluateResponse(responseKey, responseTime);
         }
