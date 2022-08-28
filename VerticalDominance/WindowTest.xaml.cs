@@ -16,19 +16,14 @@ namespace VerticalDominance
     /// </summary>
     public partial class WindowTest : Window
     {
-        private UserPreferences _settings;
+        private readonly UserPreferences _settings;
         private SpatialTest _test;
-        private SpatialTest _testResults;
 
         private readonly int DrawingPadding = 100;
         private readonly int MaskSize = 150;
 
         private bool _isTestRunning = false;
         private int _score = 0;
-        private enums.Orientation _currentOrientation;
-
-        private TrialBlock? _currentBlock = null;
-        private SpatialTest? _currentTrial = null;
 
         private FixationShape? _fixation = null;
         private TargetShape? _targetShape1 = null;
@@ -51,10 +46,6 @@ namespace VerticalDominance
 
             this._settings = settings;
             this._test = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
-
-            this._testResults = this._test;
-
-            _currentOrientation = enums.Orientation.vertical;
 
             _timerFixation = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.FixationIntervalTime) };
             _timerInterstimulus = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(_settings.InterstimulusIntervalTime) };
@@ -99,9 +90,10 @@ namespace VerticalDominance
         {
             _timerInterstimulus.Stop();
 
+            (StimSize, StimSize) targets = this._test.GetTrialTargets();
 
-            this._targetShape1 = new TargetShape($"{nameof(TargetShape)}1", StimSize.XS);
-            this._targetShape2 = new TargetShape($"{nameof(TargetShape)}2", StimSize.XL);
+            this._targetShape1 = new TargetShape($"{nameof(TargetShape)}1", targets.Item1);
+            this._targetShape2 = new TargetShape($"{nameof(TargetShape)}2", targets.Item2);
 
 
             AddShapes(this._targetShape1.Shape, this._targetShape2.Shape);
@@ -134,6 +126,8 @@ namespace VerticalDominance
             RemoveShapes(nameof(MaskShape));
 
             // Show feedback
+            bool responseCorrect = this._test.EvaluateResponse(-1);
+
             ShowFeedback(false);
 
             _timerFeedback.Start();
@@ -155,23 +149,104 @@ namespace VerticalDominance
 
             if (_isTestRunning)
             {
-                if (this._currentOrientation == enums.Orientation.horizontal)
+                bool testFinished = this._test.BumpTest();
+
+                if (!testFinished)
                 {
-                    this._currentOrientation = enums.Orientation.vertical;
+                    _timerFixation.Start();
+                    DrawFixation();
+                } else
+                {
+                    _isTestRunning = false;
+                    this.FinishTest();
+                }
+
+            }
+        }
+
+
+        /// <summary>
+        /// Key Down event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Check if Spacebar pressed and test is not running.
+            if (e.Key == Key.Space && !_isTestRunning)
+            {
+                StartTest();
+            }
+
+            long responseTime = this._stopWatch.ElapsedMilliseconds;
+            bool responseCorrect = false;
+
+            // Check if Mask timer is enabled, as we only want to capture user's response only during the mask phase.
+            if (this._timerMask.IsEnabled)
+            {
+
+                bool validResponse = false;
+
+                if (this._test.GetOrientation() == enums.Orientation.horizontal)
+                {
+                    // TODO: Do we want to capture keys for the incorrect orientation and record the response?
+                    // Check for Left/Right Arrow keys
+                    if (e.Key == Key.Left || e.Key == Key.Right)
+                    {
+                        validResponse = true;
+                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
+                        responseCorrect = this._test.EvaluateResponse(responseTime, e.Key);
+                    }
+
+
                 }
                 else
                 {
-                    this._currentOrientation = enums.Orientation.horizontal;
+                    // Check for Up/Down Arrow keys
+                    if (e.Key == Key.Up || e.Key == Key.Down)
+                    {
+                        validResponse = true;
+                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
+                        responseCorrect = this._test.EvaluateResponse(responseTime, e.Key);
+                    }
                 }
-                _timerFixation.Start();
-                DrawFixation();
 
+                if (validResponse)
+                {
+
+                    this._stopWatch.Stop();
+                    this._timerMask.Stop();
+
+                    RemoveShapes(nameof(MaskShape));
+
+                    ShowFeedback(responseCorrect);
+                    this._timerFeedback.Start();
+                }
 
             }
 
         }
 
 
+        /// <summary>
+        /// Starts the spatial discrimination test.
+        /// </summary>
+        private void StartTest()
+        {
+            _isTestRunning = true;
+
+            // Hide instructions from view.
+            this.Instructions.Visibility = Visibility.Collapsed;
+
+            // Fixation start
+            _timerFixation.Start();
+            DrawFixation();
+        }
+
+        /// <summary>
+        /// Removes the named shapes from the canvas.
+        /// </summary>
+        /// <param name="victimName">Looks fore all shapes beginning with this.</param>
         private void RemoveShapes(string victimName)
         {
             List<UIElement> itemstoremove = new List<UIElement>();
@@ -192,13 +267,19 @@ namespace VerticalDominance
 
         }
 
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="shape1"></param>
+        /// <param name="shape2"></param>
         private void AddShapes(Shape shape1, Shape shape2)
         {
             CanvasTest.Children.Add(shape1);
             CanvasTest.Children.Add(shape2);
 
             // Display targets horizontally
-            if (this._currentOrientation == enums.Orientation.horizontal)
+            if (this._test.GetOrientation() == enums.Orientation.horizontal)
             {
                 // Set first target to the left side of the canvas.
                 Canvas.SetLeft(shape1, DrawingPadding - (shape1.Width / 2));
@@ -227,6 +308,10 @@ namespace VerticalDominance
             }
         }
 
+        
+        /// <summary>
+        /// Draws the fixation shape on the canvas.
+        /// </summary>
         private void DrawFixation()
         {
             CanvasTest.Children.Add(_fixation.Shape);
@@ -235,102 +320,43 @@ namespace VerticalDominance
         }
 
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            // Check if Spacebar pressed and test is not running.
-            if (e.Key == Key.Space && !_isTestRunning)
-            {
-                RunTest();
-            }
-
-
-
-
-            // Check if Mask timer is enabled, as we only want to capture user's response only during the mask phase.
-            if (this._timerMask.IsEnabled)
-            {
-
-                bool validResponse = false;
-
-                if (this._currentOrientation == enums.Orientation.horizontal)
-                {
-                    // TODO: Do we want to capture keys for the incorrect orientation and record the response?
-                    // Check for Left/Right Arrow keys
-                    if (e.Key == Key.Left || e.Key == Key.Right)
-                    {
-                        validResponse = true;
-                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
-                    }
-
-
-                }
-                else
-                {
-                    // Check for Up/Down Arrow keys
-                    if (e.Key == Key.Up || e.Key == Key.Down)
-                    {
-                        validResponse = true;
-                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
-                    }
-                }
-
-                if (validResponse)
-                {
-
-                    this._stopWatch.Stop();
-                    this._timerMask.Stop();
-
-                    RemoveShapes(nameof(MaskShape));
-                    
-                    // TODO: Evaluate user's response with current spatial trial
-                    
-                    
-                    ShowFeedback(true);
-                    this._timerFeedback.Start();
-                }
-
-            }
-
-        }
-
-        private void RunTest()
-        {
-            _isTestRunning = true;
-
-
-
-            // Instructions
-            this.Instructions.Visibility = Visibility.Collapsed;
-
-            // Setup test
-            //this._currentBlock = this._test.TrialBlocks[0];
-
-
-
-            // Fixation start
-            _timerFixation.Start();
-            DrawFixation();
-
-
-        }
-
-
+        /// <summary>
+        /// Hides the mouse cursor when over the canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasTest_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            // TODO: Make it so it actually hides the cursor.
             if (CanvasTest.IsMouseOver)
             {
                 Cursor = Cursors.None;
             }
         }
 
+        /// <summary>
+        /// Shows user feedback on their response. 
+        /// </summary>
+        /// <param name="correct">Shows "incorrect" if false and "correct" if true.</param>
         private void ShowFeedback(bool correct)
         {
             FlowDocument feedback = new FlowDocument();
             feedback.Name = "Feedback_FlowDocument";
             feedback.TextAlignment = TextAlignment.Center;
 
+            string answer = "";
 
-            Run feedbackText = new Run("Feedback");
+            if (correct)
+            {
+                answer = "Correct!";
+                this._score++;
+            } else
+            {
+                answer = "Incorrect!";
+            }
+
+
+            Run feedbackText = new Run(answer);
 
             Paragraph paragraph = new Paragraph();
             paragraph.Inlines.Add(feedbackText);
@@ -353,6 +379,23 @@ namespace VerticalDominance
             Canvas.SetTop(feedbackRichText, (CanvasTest.Height / 2) - (feedbackRichText.Height / 2));
         }
 
+
+        /// <summary>
+        /// Finishes Test, cleaning up and closing the test window.
+        /// </summary>
+        private void FinishTest()
+        {
+            Debug.WriteLine("Test Finished");
+            Debug.WriteLine("Test Results:");
+
+            foreach (TrialBlock block in this._test.TrialBlocks)
+            {
+                foreach (SpatialTrial trial in block.Trials)
+                {
+                    Debug.WriteLine($"\tBlock {block.BlockID}, Trial {trial.TrialID}, Accuracy {trial.Accuracy}, ResponseTime {trial.ResponseTime}, Targets {trial.TrialTargets}, Key {trial.ResponseKey}");
+                }
+            }
+        }
         
     }
 }
