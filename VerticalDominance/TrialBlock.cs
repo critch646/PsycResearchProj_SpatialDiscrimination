@@ -9,25 +9,25 @@ namespace VerticalDominance
 {
     public class TrialBlock
     {
-        public int _blockNumber;
-        public int _trialsPerBlock;
+        public int BlockID { get; private set; }
+        public int TrialsPerBlock { get; private set; }
         public Range TrialRange { get; private set; }
-        public List<SpatialTrial> _trials;
-        public enums.Orientation Orientation { get; private set; }
+        public List<SpatialTrial> Trials { get; private set; }
+        public Orientation Orientation { get; private set; }
 
-        public TrialBlock(int blockNumber, Orientation orientation, int trialsPerBlock)
+        public TrialBlock(int blockID, Orientation orientation, int trialsPerBlock)
         {
-            this._blockNumber = blockNumber;
-            _trialsPerBlock = trialsPerBlock;
-            this.TrialRange = CalcRange(blockNumber);
+            this.BlockID = blockID;
+            TrialsPerBlock = trialsPerBlock;
+            this.TrialRange = CalcRange(blockID);
             this.Orientation = orientation;
-            this._trials = new List<SpatialTrial>();
+            this.Trials = new List<SpatialTrial>();
             this.GenerateTrials();
         }
 
 
         /// <summary>
-        /// TrialBlock constructor.
+        /// Generates trials based on the block's
         /// </summary>
         private void GenerateTrials()
         {
@@ -39,7 +39,7 @@ namespace VerticalDominance
                     StimSize second = (StimSize)j;
 
                     SpatialTrial trial = new SpatialTrial(-1, this.Orientation, (first, second));
-                    this._trials.Add(trial);
+                    this.Trials.Add(trial);
                 }
             }
 
@@ -54,15 +54,15 @@ namespace VerticalDominance
         private void ShuffleTrials()
         {
             Random random = new Random();
-            int n = this._trials.Count;
+            int n = this.Trials.Count;
 
-            for (int i = this._trials.Count - 1; i >= 0; i--)
+            for (int i = this.Trials.Count - 1; i >= 0; i--)
             {
                 int rnd = random.Next(i + 1);
 
-                SpatialTrial value = this._trials[rnd];
-                this._trials[rnd] = this._trials[i];
-                this._trials[i] = value;
+                SpatialTrial value = this.Trials[rnd];
+                this.Trials[rnd] = this.Trials[i];
+                this.Trials[i] = value;
             }
         }
 
@@ -74,11 +74,11 @@ namespace VerticalDominance
         {
             int trialNumber = this.TrialRange.Min;
 
-            for (int i = 0; i < this._trials.Count; i++)
+            for (int i = 0; i < this.Trials.Count; i++)
             {
-                if (this._trials[i].TrialNumber == -1)
+                if (this.Trials[i].TrialID == -1)
                 {
-                    this._trials[i].TrialNumber = trialNumber + i;
+                    this.Trials[i].TrialID = trialNumber + i;
                 }
             }
         }
@@ -90,9 +90,9 @@ namespace VerticalDominance
         /// </summary>
         private void PrintTrials()
         {
-            foreach (SpatialTrial trial in this._trials)
+            foreach (SpatialTrial trial in this.Trials)
             {
-                System.Diagnostics.Debug.WriteLine($"TrialNumber: {trial.TrialNumber}; Orientation: {trial.Orientation}; TrialTargets: {trial.TrialTargets}");
+                System.Diagnostics.Debug.WriteLine($"TrialID: {trial.TrialID}; Orientation: {trial.Orientation}; TrialTargets: {trial.TrialTargets}");
             }
         }
 
@@ -104,8 +104,8 @@ namespace VerticalDominance
         /// <returns></returns>
         private Range CalcRange(int blockNumber)
         {
-            int max = blockNumber * this._trialsPerBlock;
-            int min = max - (this._trialsPerBlock - 1);
+            int max = blockNumber * this.TrialsPerBlock;
+            int min = max - (this.TrialsPerBlock - 1);
 
             Range range = new Range(min, max);
 
