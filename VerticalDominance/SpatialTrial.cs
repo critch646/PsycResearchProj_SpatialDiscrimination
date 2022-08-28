@@ -69,6 +69,15 @@ namespace VerticalDominance
         /// <returns>True if correct; otherwise, returns false if incorect.</returns>
         public bool EvaluateResponse(Key responseKey, int responseTime)
         {
+
+            if (responseKey == Key.None)
+            {
+                this.ResponseTime = -1;
+                this.Accuracy = 0;
+
+                return false;
+            }
+
             this.ResponseTime = responseTime;
 
             if (TrialTargets.Item1 > TrialTargets.Item2)
