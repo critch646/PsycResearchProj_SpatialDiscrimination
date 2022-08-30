@@ -16,6 +16,8 @@ namespace VerticalDominance
         public int TrialsPerBlock { get; private set; }
         public int CurrentBlockIndex { get; private set; }
         public int CurrentTrialIndex { get; private set; }
+
+        public bool TestFinished { get; private set; }
         public List<TrialBlock> TrialBlocks { get; private set; }
         
 
@@ -34,6 +36,8 @@ namespace VerticalDominance
             this.TrialBlocks = new List<TrialBlock>();
             this.CurrentBlockIndex = 0;
             this.CurrentTrialIndex = 0;
+            
+            this.TestFinished = false;
 
             // Generate test
             // TODO: randomize starting orientation
@@ -94,7 +98,8 @@ namespace VerticalDominance
             // Check if CurrentBlockIndex is within range. If it's out of range, the test is complete.
             if (this.CurrentBlockIndex >= this.TrialBlocks.Count)
             {
-                return true;
+                this.TestFinished = true;
+                return this.TestFinished;
             }
             System.Diagnostics.Debug.WriteLine($"Block {TrialBlocks[CurrentBlockIndex].BlockID}, Trial {TrialBlocks[CurrentBlockIndex].Trials[CurrentTrialIndex].TrialID}");
             return false;

@@ -29,6 +29,7 @@ namespace VerticalDominance
         private UserPreferences _preferences;
         private UserPreferences _defaultPreferences;
         private string _userPreferencesFilename;
+        private SpatialTest? _spatialTest;
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -53,7 +54,7 @@ namespace VerticalDominance
 
             this._userPreferencesFilename = $"{nameof(UserPreferences)}.json";
 
-
+            this._spatialTest = null;
         }
 
         /// <summary>
@@ -181,7 +182,21 @@ namespace VerticalDominance
         private void ButtonStartTest_Click(object sender, RoutedEventArgs e)
         {
             WindowTest windowTest = new(this._preferences);
+            windowTest.TestWindowClosing += TestWindow_Closing;
             windowTest.ShowDialog();
+        }
+
+        private void TestWindow_Closing(object? sender, TestEventArgs e)
+        {
+            this._spatialTest = e.SpatialTest;
+
+            if (this._spatialTest != null && this._spatialTest.TestFinished is true)
+            {
+                System.Diagnostics.Debug.WriteLine($"Test finished!");
+            } else
+            {
+                System.Diagnostics.Debug.WriteLine($"Test not finished!");
+            }
         }
 
         private void AutoIncrementPID_Click(object sender, RoutedEventArgs e)

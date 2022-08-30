@@ -38,6 +38,8 @@ namespace VerticalDominance
         private readonly DispatcherTimer _timerFeedback;
         private readonly DispatcherTimer _timerIntertrial;
 
+        public EventHandler<TestEventArgs>? TestWindowClosing;
+
         private Stopwatch _stopWatch;
 
         public WindowTest(UserPreferences settings)
@@ -385,17 +387,20 @@ namespace VerticalDominance
         /// </summary>
         private void FinishTest()
         {
-            Debug.WriteLine("Test Finished");
-            Debug.WriteLine("Test Results:");
+            this.Close();
+        }
 
-            foreach (TrialBlock block in this._test.TrialBlocks)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            EventHandler<TestEventArgs> handler = TestWindowClosing;
+            if (handler is not null)
             {
-                foreach (SpatialTrial trial in block.Trials)
+                TestEventArgs e1 = new TestEventArgs()
                 {
-                    Debug.WriteLine($"\tBlock {block.BlockID}, Trial {trial.TrialID}, Accuracy {trial.Accuracy}, ResponseTime {trial.ResponseTime}, Targets {trial.TrialTargets}, Key {trial.ResponseKey}");
-                }
+                    SpatialTest = this._test
+                };
+                handler(this, e1);
             }
         }
-        
     }
 }
