@@ -143,3 +143,5 @@ dmypy.json
 /VerticalDominance/.vs/VerticalDominance/FileContentIndex
 /VerticalDominance/.vs
 /VerticalDominance/bin/Debug/net6.0-windows
+/TestSpatialDiscrimination/obj/Debug/net6.0
+/TestSpatialDiscrimination/obj
