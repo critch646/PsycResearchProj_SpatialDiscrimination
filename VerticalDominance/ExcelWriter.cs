@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -42,97 +43,19 @@ namespace VerticalDominance
                 return false;
             }
 
-            // Get sheets in workbook
-            WorksheetPart newWorksheetPart = spreadsheetDocument.WorkbookPart.AddNewPart<WorksheetPart>();
-            newWorksheetPart.Worksheet = new Worksheet(new SheetData());
-
-            Sheets sheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>();
-            string relationshipId = spreadsheetDocument.WorkbookPart.GetIdOfPart(newWorksheetPart);
-
-            // Get a unique ID for the new worksheet.
-            uint sheetId = 1;
-
-            if (sheets is not null && sheets.Elements<Sheet>().Count() > 0)
-            {
-                sheetId =
-                    sheets.Elements<Sheet>().Select(s => s.SheetId.Value).Max() + 1;
-            }
-
-            // Give the new worksheet a name.
-            string sheetName = $"Participant {test.ParticipantID}";
-
-            foreach (Sheet s in sheets)
-            {
-                if (s is not null && s.Name is not null && s.Name.Equals(sheetName))
-                {
-                    sheetName = $"Participant {test.ParticipantID}_{Guid.NewGuid().ToString("N")}";
-                }
-
-            }
 
 
-            // Append the new worksheet and associate it with the workbook.
-            Sheet sheet = new Sheet()
-            { Id = relationshipId, SheetId = sheetId, Name = sheetName };
-            sheets.Append(sheet);
+            // Insert new worksheet part
+            WorksheetPart newWorksheetPart = InsertWorksheet(spreadsheetDocument.WorkbookPart, test.ParticipantID.ToString());
 
-            // Setup Headers
-            Cell hdrTrialNum = InsertCellInWorksheet("A", 1, newWorksheetPart);
-            Cell hdrOrientation = InsertCellInWorksheet("B", 1, newWorksheetPart);
-            Cell hdrStimPair = InsertCellInWorksheet("C", 1, newWorksheetPart);
-            Cell hdrResponseKey = InsertCellInWorksheet("D", 1, newWorksheetPart);
-            Cell hdrResponseTime = InsertCellInWorksheet("E", 1, newWorksheetPart);
-            Cell hdrAccuracy = InsertCellInWorksheet("F", 1, newWorksheetPart);
 
-            Cell hdrPartId = InsertCellInWorksheet("H", 1, newWorksheetPart);
-            Cell hdrDateTime = InsertCellInWorksheet("H", 2, newWorksheetPart);
-            Cell hdrAccuracies = InsertCellInWorksheet("I", 4, newWorksheetPart);
-            Cell hdrHorizontalSum = InsertCellInWorksheet("H", 5, newWorksheetPart);
-            Cell hdrVerticalSum = InsertCellInWorksheet("H", 6, newWorksheetPart);
-            Cell hdrAccuracyTotal = InsertCellInWorksheet("H", 7, newWorksheetPart);
-
-            hdrTrialNum.CellValue = new CellValue("Trial");
-            hdrOrientation.CellValue = new CellValue("Orientation");
-            hdrStimPair.CellValue = new CellValue("Stim Pair");
-            hdrResponseKey.CellValue = new CellValue("Response Key");
-            hdrResponseTime.CellValue = new CellValue("Response Time");
-            hdrAccuracy.CellValue = new CellValue("Accuracy");
-
-            hdrPartId.CellValue = new CellValue("Participant Id");
-            hdrDateTime.CellValue = new CellValue("DateTime");
-            hdrAccuracies.CellValue = new CellValue("Accuracies");
-            hdrHorizontalSum.CellValue = new CellValue("Horizontal:");
-            hdrVerticalSum.CellValue = new CellValue("Vertical:");
-            hdrAccuracyTotal.CellValue = new CellValue("Total:");
+            // Insert labels
+            newWorksheetPart = InsertWorksheetLabels(newWorksheetPart);
 
             spreadsheetDocument.Save();
 
-            uint rowIndex = 2;
-
-            // Write test data into sheet
-            foreach (TrialBlock block in test.TrialBlocks)
-            {
-                foreach (SpatialTrial trial in block.Trials)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Writing Trial {trial.TrialID}");
-                    Cell cellTrialNum = InsertCellInWorksheet("A", rowIndex, newWorksheetPart);
-                    Cell cellOrientation = InsertCellInWorksheet("B", rowIndex, newWorksheetPart);
-                    Cell cellStimPair = InsertCellInWorksheet("C", rowIndex, newWorksheetPart);
-                    Cell cellResponseKey = InsertCellInWorksheet("D", rowIndex, newWorksheetPart);
-                    Cell cellResponseTime = InsertCellInWorksheet("E", rowIndex, newWorksheetPart);
-                    Cell cellAccuracy = InsertCellInWorksheet("F", rowIndex, newWorksheetPart);
-
-                    cellTrialNum.CellValue = new CellValue(trial.TrialID.ToString());
-                    cellOrientation.CellValue = new CellValue(trial.Orientation.ToString());
-                    cellStimPair.CellValue = new CellValue(trial.TrialTargets.ToString());
-                    cellResponseKey.CellValue = new CellValue(trial.ResponseKey.ToString());
-                    cellResponseTime.CellValue = new CellValue(trial.ResponseTime.ToString());
-                    cellAccuracy.CellValue = new CellValue(trial.Accuracy.ToString());
-
-                    rowIndex += 1;
-                }
-            }
-
+            // Insert test data
+            newWorksheetPart = InsertTestData(newWorksheetPart, test);
 
             spreadsheetDocument.Save();
             spreadsheetDocument.Close();
@@ -206,12 +129,90 @@ namespace VerticalDominance
                 sheetId = sheets.Elements<Sheet>().Select(s => s.SheetId.Value).Max() + 1;
             }
 
+            // Give the new worksheet a name.
             string sheetName = $"Participant {participantID}";
+
+            foreach (Sheet s in sheets)
+            {
+                if (s is not null && s.Name is not null && s.Name.Equals(sheetName))
+                {
+                    sheetName = $"Participant {participantID}_{Guid.NewGuid().ToString("N")}";
+                }
+
+            }
+
+            // Add datetime style sheet
+            WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
+            stylesPart.Stylesheet = new Stylesheet
+            {
+                Fonts = new Fonts(new Font()),
+                Fills = new Fills(new Fill()),
+                Borders = new Borders(new Border()),
+                CellStyleFormats = new CellStyleFormats(new CellFormat()),
+                CellFormats =
+                    new CellFormats(
+                        new CellFormat(),
+                        new CellFormat
+                            {
+                                NumberFormatId = 22,
+                                ApplyNumberFormat = true
+                            })
+            };
+
 
             // Append the new worksheet and associate it with the workbook.
             Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = sheetName };
             sheets.Append(sheet);
             workbookPart.Workbook.Save();
+
+            return newWorksheetPart;
+        }
+
+        private static WorksheetPart InsertWorksheetLabels(WorksheetPart newWorksheetPart)
+        {
+            // Insert label cells for test data
+            Cell labelTrialNum = InsertCellInWorksheet("A", 1, newWorksheetPart);
+            Cell labelOrientation = InsertCellInWorksheet("B", 1, newWorksheetPart);
+            Cell labelStimPair = InsertCellInWorksheet("C", 1, newWorksheetPart);
+            Cell LabelResponseKey = InsertCellInWorksheet("D", 1, newWorksheetPart);
+            Cell labelResponseTime = InsertCellInWorksheet("E", 1, newWorksheetPart);
+            Cell labelAccuracy = InsertCellInWorksheet("F", 1, newWorksheetPart);
+
+            // Insert label cells for test information
+            Cell labelPartId = InsertCellInWorksheet("H", 1, newWorksheetPart);
+            Cell labelDateTime = InsertCellInWorksheet("H", 2, newWorksheetPart);
+            Cell labelAccuracies = InsertCellInWorksheet("I", 3, newWorksheetPart);
+            Cell labelHorizontalSum = InsertCellInWorksheet("H", 4, newWorksheetPart);
+            Cell labelVerticalSum = InsertCellInWorksheet("H", 5, newWorksheetPart);
+            Cell labelAccuracyTotal = InsertCellInWorksheet("H", 6, newWorksheetPart);
+
+            labelTrialNum.CellValue = new CellValue("Trial");
+            labelOrientation.CellValue = new CellValue("Orientation");
+            labelStimPair.CellValue = new CellValue("Stim Pair");
+            LabelResponseKey.CellValue = new CellValue("Response Key");
+            labelResponseTime.CellValue = new CellValue("Response Time");
+            labelAccuracy.CellValue = new CellValue("Accuracy");
+
+            labelPartId.CellValue = new CellValue("Participant Id");
+            labelDateTime.CellValue = new CellValue("DateTime");
+            labelAccuracies.CellValue = new CellValue("Accuracy");
+            labelHorizontalSum.CellValue = new CellValue("Horizontal");
+            labelVerticalSum.CellValue = new CellValue("Vertical");
+            labelAccuracyTotal.CellValue = new CellValue("Total");
+
+            labelTrialNum.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelOrientation.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelStimPair.DataType = new EnumValue<CellValues>(CellValues.String);
+            LabelResponseKey.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelResponseTime.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelAccuracy.DataType = new EnumValue<CellValues>(CellValues.String);
+
+            labelPartId.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelDateTime.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelAccuracies.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelHorizontalSum.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelVerticalSum.DataType = new EnumValue<CellValues>(CellValues.String);
+            labelAccuracyTotal.DataType = new EnumValue<CellValues>(CellValues.String);
 
             return newWorksheetPart;
         }
@@ -243,6 +244,79 @@ namespace VerticalDominance
             // Close the document.
             spreadsheetDocument.Close();
 
+        }
+
+        private static WorksheetPart InsertTestData(WorksheetPart newWorksheetPart, SpatialTest test)
+        {
+            uint rowIndex = 2;
+
+            // Write test data into sheet
+            foreach (TrialBlock block in test.TrialBlocks)
+            {
+                foreach (SpatialTrial trial in block.Trials)
+                {
+                    // Insert new cells into worksheet
+                    Cell cellTrialNum = InsertCellInWorksheet("A", rowIndex, newWorksheetPart);
+                    Cell cellOrientation = InsertCellInWorksheet("B", rowIndex, newWorksheetPart);
+                    Cell cellStimPair = InsertCellInWorksheet("C", rowIndex, newWorksheetPart);
+                    Cell cellResponseKey = InsertCellInWorksheet("D", rowIndex, newWorksheetPart);
+                    Cell cellResponseTime = InsertCellInWorksheet("E", rowIndex, newWorksheetPart);
+                    Cell cellAccuracy = InsertCellInWorksheet("F", rowIndex, newWorksheetPart);
+
+                    // Assign data values to cells
+                    cellTrialNum.CellValue = new CellValue((int)trial.TrialID);
+                    cellOrientation.CellValue = new CellValue(trial.Orientation.ToString());
+                    cellStimPair.CellValue = new CellValue(trial.TrialTargets.ToString());
+                    cellResponseKey.CellValue = new CellValue(trial.ResponseKey.ToString());
+                    cellResponseTime.CellValue = new CellValue((int)trial.ResponseTime);
+                    cellAccuracy.CellValue = new CellValue((int)trial.Accuracy);
+
+                    // Set data type of cells
+                    cellTrialNum.DataType = new EnumValue<CellValues>(CellValues.Number);
+                    cellOrientation.DataType = new EnumValue<CellValues>(CellValues.String);
+                    cellStimPair.DataType = new EnumValue<CellValues>(CellValues.String);
+                    cellResponseKey.DataType = new EnumValue<CellValues>(CellValues.String);
+                    cellResponseTime.DataType = new EnumValue<CellValues>(CellValues.Number);
+                    cellAccuracy.DataType = new EnumValue<CellValues>(CellValues.Number);
+
+                    rowIndex++;
+                }
+            }
+
+            // Write test information
+            // Insert new information cells into worksheet
+            Cell cellParticipantId = InsertCellInWorksheet("I", 1, newWorksheetPart);
+            Cell cellHorizontalAccuracy = InsertCellInWorksheet("I", 4, newWorksheetPart);
+            Cell cellVerticalAccuracy = InsertCellInWorksheet("I", 5, newWorksheetPart);
+            Cell cellTotalAccuracy = InsertCellInWorksheet("I", 6, newWorksheetPart);
+
+            // Assign data values to cells
+            cellParticipantId.CellValue = new CellValue((int)test.ParticipantID);
+
+
+
+            // Assign formulas to cells
+            cellHorizontalAccuracy.CellFormula = new CellFormula("=SUMIF(B:B, \"horizontal\", F:F)/100");
+            cellVerticalAccuracy.CellFormula = new CellFormula("=SUMIF(B:B, \"vertical\", F:F)/100");
+            cellTotalAccuracy.CellFormula = new CellFormula("=SUM(I4,I5)");
+
+            // Set data type of cells
+            cellParticipantId.DataType = new EnumValue<CellValues>(CellValues.Number);
+            cellHorizontalAccuracy.DataType = new EnumValue<CellValues>(CellValues.Number);
+            cellVerticalAccuracy.DataType = new EnumValue<CellValues>(CellValues.Number);
+            cellTotalAccuracy.DataType = new EnumValue<CellValues>(CellValues.Number);
+
+            // Set up datetime cell
+            Cell cellDateTime = InsertCellInWorksheet("I", 2, newWorksheetPart);
+            string oaValue = test.DateTime.ToOADate().ToString();
+            CellValue cellValueDateTime = new CellValue(oaValue);
+
+            cellDateTime.DataType = new EnumValue<CellValues>(CellValues.Number);
+            cellDateTime.StyleIndex = 1;
+            cellDateTime.Append(cellValueDateTime);
+
+
+            return newWorksheetPart;
         }
     }
 }
