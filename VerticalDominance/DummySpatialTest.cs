@@ -11,9 +11,9 @@ namespace VerticalDominance
     {
         public SpatialTest DummyTest { get; set; }
 
-        DummySpatialTest(int participantID)
+        public DummySpatialTest(UserPreferences preferences)
         {
-            this.DummyTest = new SpatialTest(participantID, 4, 25);
+            this.DummyTest = new SpatialTest(preferences.CurrentParticipantID, preferences.BlocksPerTest, preferences.TrialsPerBlock);
 
             bool testFinished = false;
 

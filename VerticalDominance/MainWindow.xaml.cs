@@ -30,6 +30,7 @@ namespace VerticalDominance
         private UserPreferences _defaultPreferences;
         private string _userPreferencesFilename;
         private SpatialTest? _spatialTest;
+        private DummySpatialTest? _dummySpatialTest;
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -55,6 +56,8 @@ namespace VerticalDominance
             this._userPreferencesFilename = $"{nameof(UserPreferences)}.json";
 
             this._spatialTest = null;
+
+            this._dummySpatialTest = null;
         }
 
         /// <summary>
@@ -203,6 +206,13 @@ namespace VerticalDominance
         {
             this._preferences.AutoIncrement = _AutoIncrementPID.IsChecked;
             SavePreferences();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _dummySpatialTest = new DummySpatialTest(this._preferences);
+            ExcelWriter writer = new ExcelWriter();
+            writer.WriteTestToSheet(this._preferences.SpreadsheetDirectory, _dummySpatialTest.DummyTest);
         }
     }
 }
