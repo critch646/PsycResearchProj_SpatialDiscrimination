@@ -50,7 +50,8 @@ namespace VerticalDominance
                 MaskIntervalTime = 2000,
                 FeedbackIntervalTime = 500,
                 IntertrialIntervalTime = 500,
-                SpreadsheetDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+                SpreadsheetDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                CurrentParticipantID = 1
             };
 
             this._userPreferencesFilename = $"{nameof(UserPreferences)}.json";
@@ -70,6 +71,7 @@ namespace VerticalDominance
             this._preferences = LoadPreferences(this._userPreferencesFilename);
             log.Info($"App loaded successfully.");
             this._AutoIncrementPID.IsChecked = this._preferences.AutoIncrement;
+            this.IntegerUpDown_ParticipantID.Value = this._preferences.CurrentParticipantID;
 
             // Events
 
@@ -196,6 +198,9 @@ namespace VerticalDominance
             if (this._spatialTest != null && this._spatialTest.TestFinished is true)
             {
                 System.Diagnostics.Debug.WriteLine($"Test finished!");
+                ExcelWriter writer = new ExcelWriter();
+                writer.WriteTestToSheet(this._preferences.SpreadsheetDirectory, this._spatialTest);
+                IncrementPID();
             } else
             {
                 System.Diagnostics.Debug.WriteLine($"Test not finished!");
@@ -208,11 +213,12 @@ namespace VerticalDominance
             SavePreferences();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void IncrementPID()
         {
-            _dummySpatialTest = new DummySpatialTest(this._preferences);
-            ExcelWriter writer = new ExcelWriter();
-            writer.WriteTestToSheet(this._preferences.SpreadsheetDirectory, _dummySpatialTest.DummyTest);
+            if (_AutoIncrementPID.IsChecked)
+            {
+                IntegerUpDown_ParticipantID.Value++;
+            }
         }
     }
 }

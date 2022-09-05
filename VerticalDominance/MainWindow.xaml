@@ -35,6 +35,5 @@
         <xctk:IntegerUpDown x:Name="IntegerUpDown_ParticipantID" Value="1" Minimum="0" Maximum="99999" VerticalAlignment="Center" AllowSpin="True" FontSize="24" TextAlignment="Center" Grid.Column="1" Grid.Row="3" Margin="10,0,11,0" ValueChanged="IntegerUpDown_ParticipantID_ValueChanged"/>
         <Button x:Name="ButtonStartTest" Content="Start Test" FontSize="36" Grid.Row="3" Grid.Column="1" Margin="10,48,11,0" Grid.RowSpan="2" Click="ButtonStartTest_Click"/>
         <TextBlock x:Name="TextBlockParticipantID" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Text="Participant ID" VerticalAlignment="Center" TextAlignment="Center" FontSize="24" Margin="10,0,10,0"/>
-        <Button Grid.Column="1" Content="Spreadsheet Test" HorizontalAlignment="Left" Margin="126,184,0,0" Grid.Row="5" VerticalAlignment="Top" Click="Button_Click"/>
     </Grid>
 </Window>
