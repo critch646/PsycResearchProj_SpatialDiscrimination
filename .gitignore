@@ -145,3 +145,5 @@ dmypy.json
 /VerticalDominance/bin/Debug/net6.0-windows
 /TestSpatialDiscrimination/obj/Debug/net6.0
 /TestSpatialDiscrimination/obj
+/VerticalDominance/bin/x86/Release/net6.0-windows
+/Setup Spatial Tester/Release
