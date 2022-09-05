@@ -164,22 +164,35 @@ namespace VerticalDominance
             }
 
             // Add datetime style sheet
-            WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
-            stylesPart.Stylesheet = new Stylesheet
+            try
             {
-                Fonts = new Fonts(new Font()),
-                Fills = new Fills(new Fill()),
-                Borders = new Borders(new Border()),
-                CellStyleFormats = new CellStyleFormats(new CellFormat()),
-                CellFormats =
-                    new CellFormats(
-                        new CellFormat(),
-                        new CellFormat
-                            {
-                                NumberFormatId = 22,
-                                ApplyNumberFormat = true
-                            })
-            };
+                if (workbookPart.WorkbookStylesPart == null)
+                {
+                    WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>(); // TODO: DocumentFormat.OpenXml.Packaging.OpenXmlPackageException: 'Only one instance of the type is allowed for this parent.'
+
+                    stylesPart.Stylesheet = new Stylesheet
+                    {
+                        Fonts = new Fonts(new Font()),
+                        Fills = new Fills(new Fill()),
+                        Borders = new Borders(new Border()),
+                        CellStyleFormats = new CellStyleFormats(new CellFormat()),
+                        CellFormats =
+                            new CellFormats(
+                                new CellFormat(),
+                                new CellFormat
+                                {
+                                    NumberFormatId = 22,
+                                    ApplyNumberFormat = true
+                                })
+                    };
+                }
+
+            } 
+            catch (OpenXmlPackageException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
 
 
             // Append the new worksheet and associate it with the workbook.

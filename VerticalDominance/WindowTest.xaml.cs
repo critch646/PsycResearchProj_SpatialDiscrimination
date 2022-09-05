@@ -197,7 +197,6 @@ namespace VerticalDominance
                     if (e.Key == Key.Left || e.Key == Key.Right)
                     {
                         validResponse = true;
-                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
                         responseCorrect = this._test.EvaluateResponse(responseTime, e.Key);
                     }
 
@@ -209,7 +208,6 @@ namespace VerticalDominance
                     if (e.Key == Key.Up || e.Key == Key.Down)
                     {
                         validResponse = true;
-                        System.Diagnostics.Debug.WriteLine($"Key \"{e.Key}\" pressed");
                         responseCorrect = this._test.EvaluateResponse(responseTime, e.Key);
                     }
                 }

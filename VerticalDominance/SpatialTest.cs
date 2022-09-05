@@ -101,7 +101,6 @@ namespace VerticalDominance
                 this.TestFinished = true;
                 return this.TestFinished;
             }
-            System.Diagnostics.Debug.WriteLine($"Block {TrialBlocks[CurrentBlockIndex].BlockID}, Trial {TrialBlocks[CurrentBlockIndex].Trials[CurrentTrialIndex].TrialID}");
             return false;
         }
 
