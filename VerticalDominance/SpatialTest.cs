@@ -132,6 +132,10 @@ namespace VerticalDominance
         }
 
 
+        /// <summary>
+        /// Gets test's current trial's orientation
+        /// </summary>
+        /// <returns></returns>
         public Orientation GetOrientation()
         {
             return TrialBlocks[this.CurrentBlockIndex].Orientation;
