@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using VerticalDominance.enums;
+using SpatialDiscrimination.enums;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     public class SpatialTrial
     {

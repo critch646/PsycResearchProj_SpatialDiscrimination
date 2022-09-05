@@ -12,7 +12,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Vml.Office;
 using log4net;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     public class ExcelWriter
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VerticalDominance.enums;
+using SpatialDiscrimination.enums;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     public class DummySpatialTest
     {

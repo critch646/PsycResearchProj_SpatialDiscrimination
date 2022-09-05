@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using VerticalDominance.enums;
+using SpatialDiscrimination.enums;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     public abstract class TestShape
     { 

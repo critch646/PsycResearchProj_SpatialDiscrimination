@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using log4net;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     /// <summary>
     /// Interaction logic for App.xaml

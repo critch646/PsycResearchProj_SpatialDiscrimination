@@ -18,7 +18,7 @@ using log4net;
 
 using Newtonsoft.Json;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

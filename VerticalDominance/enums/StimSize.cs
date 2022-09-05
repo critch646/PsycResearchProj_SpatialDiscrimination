@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VerticalDominance.enums
+namespace SpatialDiscrimination.enums
 {
     public enum StimSize
     {

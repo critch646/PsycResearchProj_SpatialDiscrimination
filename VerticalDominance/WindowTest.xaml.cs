@@ -8,9 +8,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using VerticalDominance.enums;
+using SpatialDiscrimination.enums;
 
-namespace VerticalDominance
+namespace SpatialDiscrimination
 {
     /// <summary>
     /// Interaction logic for WindowTest.xaml
