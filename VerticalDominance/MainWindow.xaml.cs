@@ -18,7 +18,7 @@ using log4net;
 
 using Newtonsoft.Json;
 
-namespace SpatialDiscrimination
+namespace SpatialDiscriminationApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

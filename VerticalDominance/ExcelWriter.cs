@@ -12,7 +12,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Vml.Office;
 using log4net;
 
-namespace SpatialDiscrimination
+namespace SpatialDiscriminationApp
 {
     public class ExcelWriter
     {

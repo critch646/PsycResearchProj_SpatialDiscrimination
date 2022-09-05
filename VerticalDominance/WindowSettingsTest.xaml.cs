@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SpatialDiscrimination
+namespace SpatialDiscriminationApp
 {
     /// <summary>
     /// Interaction logic for WindowSettingsTest.xaml

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using SpatialDiscrimination.enums;
+using SpatialDiscriminationApp.enums;
 
-namespace SpatialDiscrimination
+namespace SpatialDiscriminationApp
 {
     public abstract class TestShape
     { 

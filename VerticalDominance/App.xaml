@@ -1,7 +1,7 @@
-﻿<Application x:Class="SpatialDiscrimination.App"
+﻿<Application x:Class="SpatialDiscriminationApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SpatialDiscrimination"
+             xmlns:local="clr-namespace:SpatialDiscriminationApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
