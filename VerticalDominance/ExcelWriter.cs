@@ -16,14 +16,25 @@ namespace VerticalDominance
     public class ExcelWriter
     {
 
+        /// <summary>
+        /// Takes passed spatial test and writes its data to an Excel workbook (creating a new one if it doesn't
+        /// already exist) by inserting a new worksheet and inserting data to that worksheet.
+        /// </summary>
+        /// <param name="absolutePath">Path and filename of target Excel workbook.</param>
+        /// <param name="test">Spatial test to write-out data.</param>
+        /// <returns></returns>
         public bool WriteTestToSheet(string absolutePath, SpatialTest test)
         {
+            // Create file path
             string filepath = Path.Combine(absolutePath, "TestResults.xlsx");
+
+            // Check if file exists
             if (!File.Exists(filepath))
             {
                 CreateSpreadsheetWorkbook(filepath);
             }
 
+            // Create a spreadsheet document
             SpreadsheetDocument spreadsheetDocument = null;
 
             // Open workbook
@@ -43,20 +54,16 @@ namespace VerticalDominance
                 return false;
             }
 
-
-
             // Insert new worksheet part
             WorksheetPart newWorksheetPart = InsertWorksheet(spreadsheetDocument.WorkbookPart, test.ParticipantID.ToString());
 
 
             // Insert labels
             newWorksheetPart = InsertWorksheetLabels(newWorksheetPart);
-
             spreadsheetDocument.Save();
 
             // Insert test data
             newWorksheetPart = InsertTestData(newWorksheetPart, test);
-
             spreadsheetDocument.Save();
             spreadsheetDocument.Close();
 
@@ -64,6 +71,13 @@ namespace VerticalDominance
         }
 
 
+        /// <summary>
+        /// Inserts a new cell based on the passed coumna name and row index into the passed worksheet part.
+        /// </summary>
+        /// <param name="columnName">Target column name to insert to.</param>
+        /// <param name="rowIndex">Target row index to insert to.</param>
+        /// <param name="worksheetPart">Target worksheet part to insert to.</param>
+        /// <returns></returns>
         private static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
         {
             Worksheet worksheet = worksheetPart.Worksheet;
@@ -103,15 +117,23 @@ namespace VerticalDominance
                     }
                 }
 
+                // Create and insert new cell
                 Cell newCell = new Cell() { CellReference = cellReference };
                 row.InsertBefore(newCell, refCell);
 
                 worksheet.Save();
+
                 return newCell;
             }
         }
 
 
+        /// <summary>
+        /// Create and insert a new worksheet into the pased workbook part and naming it using the passed participant ID.
+        /// </summary>
+        /// <param name="workbookPart">Target workbook part to insert to.</param>
+        /// <param name="participantID">Participant's ID number.</param>
+        /// <returns></returns>
         private static WorksheetPart InsertWorksheet(WorkbookPart workbookPart, string participantID)
         {
             // Add a new worksheet part to the workbook.
@@ -168,6 +190,12 @@ namespace VerticalDominance
             return newWorksheetPart;
         }
 
+
+        /// <summary>
+        /// Inserts labels for test data and information.
+        /// </summary>
+        /// <param name="newWorksheetPart">Worksheet part to insert labels into.</param>
+        /// <returns></returns>
         private static WorksheetPart InsertWorksheetLabels(WorksheetPart newWorksheetPart)
         {
             // Insert label cells for test data
@@ -186,6 +214,7 @@ namespace VerticalDominance
             Cell labelVerticalSum = InsertCellInWorksheet("H", 5, newWorksheetPart);
             Cell labelAccuracyTotal = InsertCellInWorksheet("H", 6, newWorksheetPart);
 
+            // Assign label cell values for test data
             labelTrialNum.CellValue = new CellValue("Trial");
             labelOrientation.CellValue = new CellValue("Orientation");
             labelStimPair.CellValue = new CellValue("Stim Pair");
@@ -193,13 +222,15 @@ namespace VerticalDominance
             labelResponseTime.CellValue = new CellValue("Response Time");
             labelAccuracy.CellValue = new CellValue("Accuracy");
 
+            // Assign label cell values for test information
             labelPartId.CellValue = new CellValue("Participant Id");
             labelDateTime.CellValue = new CellValue("DateTime");
             labelAccuracies.CellValue = new CellValue("Accuracy");
             labelHorizontalSum.CellValue = new CellValue("Horizontal");
             labelVerticalSum.CellValue = new CellValue("Vertical");
             labelAccuracyTotal.CellValue = new CellValue("Total");
-
+            
+            // Set data types for test data cells
             labelTrialNum.DataType = new EnumValue<CellValues>(CellValues.String);
             labelOrientation.DataType = new EnumValue<CellValues>(CellValues.String);
             labelStimPair.DataType = new EnumValue<CellValues>(CellValues.String);
@@ -207,6 +238,7 @@ namespace VerticalDominance
             labelResponseTime.DataType = new EnumValue<CellValues>(CellValues.String);
             labelAccuracy.DataType = new EnumValue<CellValues>(CellValues.String);
 
+            // Set data types for test information cells
             labelPartId.DataType = new EnumValue<CellValues>(CellValues.String);
             labelDateTime.DataType = new EnumValue<CellValues>(CellValues.String);
             labelAccuracies.DataType = new EnumValue<CellValues>(CellValues.String);
@@ -218,6 +250,10 @@ namespace VerticalDominance
         }
 
 
+        /// <summary>
+        /// Creates a new spreadsheet workbook at the target file path.
+        /// </summary>
+        /// <param name="filepath">Where to create workbook.</param>
         private static void CreateSpreadsheetWorkbook(string filepath)
         {
             // Create a spreadsheet document by supplying the filepath.
@@ -246,6 +282,13 @@ namespace VerticalDominance
 
         }
 
+
+        /// <summary>
+        /// Inserts test data from spatial test into passed worksheet part.
+        /// </summary>
+        /// <param name="newWorksheetPart"></param>
+        /// <param name="test"></param>
+        /// <returns></returns>
         private static WorksheetPart InsertTestData(WorksheetPart newWorksheetPart, SpatialTest test)
         {
             uint rowIndex = 2;
@@ -292,8 +335,6 @@ namespace VerticalDominance
 
             // Assign data values to cells
             cellParticipantId.CellValue = new CellValue((int)test.ParticipantID);
-
-
 
             // Assign formulas to cells
             cellHorizontalAccuracy.CellFormula = new CellFormula("=SUMIF(B:B, \"horizontal\", F:F)/100");
