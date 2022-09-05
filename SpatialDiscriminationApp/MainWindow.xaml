@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SpatialDiscriminationApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1000" WindowStartupLocation="CenterScreen" Background="White" Loaded="MainWindow1_Loaded">
+        Title="Spatial Discrimination App" Height="1000" Width="1000" WindowStartupLocation="CenterScreen" Background="White" Loaded="MainWindow1_Loaded">
     <Grid x:Name="GridMain" ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
