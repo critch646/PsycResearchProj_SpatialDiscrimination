@@ -219,12 +219,5 @@ namespace SpatialDiscriminationApp
                 IntegerUpDown_ParticipantID.Value++;
             }
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DummySpatialTest dummyTest = new DummySpatialTest(this._preferences);
-            ExcelWriter writer = new ExcelWriter();
-            writer.WriteTestToSheet(this._preferences.SpreadsheetDirectory, dummyTest.DummyTest);
-        }
     }
 }
