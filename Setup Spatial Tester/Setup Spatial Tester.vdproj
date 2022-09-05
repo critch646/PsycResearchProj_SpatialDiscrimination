@@ -37,6 +37,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -53,6 +61,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -139,9 +163,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Setup Spatial Tester"
+        "ProductName" = "8:Spatial Discrimination App"
         "ProductCode" = "8:{A1A657A0-AD52-4C2C-ADF1-E7964593A636}"
-        "PackageCode" = "8:{3C1128BC-BC01-48B4-8C59-D6A03611EDF8}"
+        "PackageCode" = "8:{B630C723-42E8-447A-B908-1E33C47F67A5}"
         "UpgradeCode" = "8:{5DD093B4-5B8F-4049-A42B-1C196019F898}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -149,7 +173,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:Critch Systems"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Setup Spatial Tester"
@@ -261,6 +285,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2D4A6E7AC05E43C99291789E6C7037F3"
+            {
+            "Name" = "8:Spatial Discrimination App"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_323286D76B3E43E385568E7F84432FC0"
+            "Folder" = "8:_481929C1678A48DEADDD943A07CE84C0"
+            "WorkingFolder" = "8:_EE6D85DDFC1C4462A6C61BDF3DBED851"
+            "Icon" = "8:"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -662,7 +700,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_323286D76B3E43E385568E7F84432FC0"
             {
-            "SourcePath" = "8:..\\VerticalDominance\\obj\\x86\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\SpatialDiscriminationApp\\obj\\x86\\Release\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EE6D85DDFC1C4462A6C61BDF3DBED851"

@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\docs\meeting_minutes\meeting_minutes_2022-06-03.md = ..\docs\meeting_minutes\meeting_minutes_2022-06-03.md
 		..\docs\notes\project_notes.md = ..\docs\notes\project_notes.md
 		..\docs\README.md = ..\docs\README.md
+		..\README.md = ..\README.md
 		..\docs\design\requirements.md = ..\docs\design\requirements.md
 	EndProjectSection
 EndProject
