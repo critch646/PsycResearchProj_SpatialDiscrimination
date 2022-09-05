@@ -50,13 +50,19 @@ namespace VerticalDominance
         /// </summary>
         /// <param name="orientationStart">The first block will use this orientation, then will alternate.</param>
         /// <returns>true if successful; otherwise, returns false.</returns>
-        public bool GenerateTest(Orientation orientationStart = Orientation.horizontal)
+        public bool GenerateTest()
         {
+            // Select random starting orientation
+            Array orientations = Enum.GetValues(typeof(enums.Orientation));
+            Random random = new Random();
+            Orientation orientation = (Orientation)orientations.GetValue(random.Next(orientations.Length));
+
+            // Create trial blocks
             for (int i = 1; i <= this.NumberOfBlocks; i++)
             {
-                TrialBlock trialBlock = new(i, orientationStart, this.TrialsPerBlock);
+                TrialBlock trialBlock = new(i, orientation, this.TrialsPerBlock);
                 this.TrialBlocks.Add(trialBlock);
-                orientationStart = NextOrientation(orientationStart);
+                orientation = NextOrientation(orientation);
             }
             return true;
         }
