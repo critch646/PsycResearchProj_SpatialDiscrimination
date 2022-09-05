@@ -26,7 +26,7 @@
                 <MenuItem x:Name="_Close" Header="Close" Click="MenuClose_Click"/>
             </MenuItem>
             <MenuItem x:Name="_Settings" Header="_Settings">
-                <MenuItem x:Name="_TestSettings" Header="Test Preferences" Click="MenuTestSettings_Click"/>
+                <MenuItem x:Name="_TestSettings" Header="Test Settings" Click="MenuTestSettings_Click"/>
             </MenuItem>
             <MenuItem x:Name="_Preferences" Header="Preferences">
                 <MenuItem x:Name="_AutoIncrementPID" Header="Auto Increment Participant ID" IsCheckable="True" Click="AutoIncrementPID_Click"/>

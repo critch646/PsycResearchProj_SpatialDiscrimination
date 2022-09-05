@@ -123,6 +123,10 @@ namespace SpatialDiscriminationApp
             return this._defaultPreferences;
         }
 
+
+        /// <summary>
+        /// Saves user preferences to JSON file.
+        /// </summary>
         private void SavePreferences()
         {
             if (this._preferences != null)
@@ -140,8 +144,11 @@ namespace SpatialDiscriminationApp
         }
 
 
-
-
+        /// <summary>
+        /// Participant ID IntegerUpDown Value Changed event. Updates and saves user preferences.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void IntegerUpDown_ParticipantID_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (this._preferences != null && IntegerUpDown_ParticipantID.Value != null)
@@ -151,11 +158,23 @@ namespace SpatialDiscriminationApp
             }
         }
 
+
+        /// <summary>
+        /// Clicked Menu Close event. Cloeses Main Window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+
+        /// <summary>
+        /// Test Settings Menu item clicked. Displays Test Settings window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuTestSettings_Click(object sender, RoutedEventArgs e)
         {
             WindowSettingsTest windowSettingsTest = new(this._defaultPreferences, this._preferences);
@@ -164,6 +183,12 @@ namespace SpatialDiscriminationApp
             windowSettingsTest.ShowDialog();
         }
 
+
+        /// <summary>
+        /// Test settings window, OK button clicked event. Updates and saves user preferences.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WindowSettingsTest_OkButtonClicked(object? sender, TestSettingsChangedEventArgs e)
         {
             if (e != null)
@@ -179,10 +204,14 @@ namespace SpatialDiscriminationApp
 
                 SavePreferences();
             }
-
-
         }
 
+
+        /// <summary>
+        /// Start Test button clicked event. Creates and displays test window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonStartTest_Click(object sender, RoutedEventArgs e)
         {
             WindowTest windowTest = new(this._preferences);
@@ -190,6 +219,12 @@ namespace SpatialDiscriminationApp
             windowTest.ShowDialog();
         }
 
+
+        /// <summary>
+        /// Test Window closing event. Gets test data and checks if the test was completed, and if so, writes test data to spreadsheet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TestWindow_Closing(object? sender, TestEventArgs e)
         {
             this._spatialTest = e.SpatialTest;
@@ -206,12 +241,21 @@ namespace SpatialDiscriminationApp
             }
         }
 
+
+        /// <summary>
+        /// Auto Increment participant Id clicked event. Updates and saves user preferences.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AutoIncrementPID_Click(object sender, RoutedEventArgs e)
         {
             this._preferences.AutoIncrement = _AutoIncrementPID.IsChecked;
             SavePreferences();
         }
 
+        /// <summary>
+        /// Checks if AutoIncrement is true and increments if so.
+        /// </summary>
         private void IncrementPID()
         {
             if (_AutoIncrementPID.IsChecked)
