@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
@@ -42,9 +43,18 @@ namespace VerticalDominance
 
         private Stopwatch _stopWatch;
 
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
+        /// <summary>
+        /// Contains and runs the spatial test.
+        /// </summary>
+        /// <param name="settings">Settings used for the test.</param>
         public WindowTest(UserPreferences settings)
         {
             InitializeComponent();
+
+            log4net.Config.XmlConfigurator.Configure();
 
             this._settings = settings;
             this._test = new SpatialTest(_settings.CurrentParticipantID, _settings.BlocksPerTest, _settings.TrialsPerBlock);
@@ -69,16 +79,31 @@ namespace VerticalDominance
             this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
             this._maskShape2 = new MaskShape($"{nameof(MaskShape)}2", MaskSize);
 
+            log.Info("WindowTest initialized.");
+
         }
 
+
+        /// <summary>
+        /// Test window loaded event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            log.Info("WindowTest loaded.");
 
         }
 
+
+        /// <summary>
+        /// Fixation timer tick event. Indicates the end of the fixation interval.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerFixation_Tick(object? sender, EventArgs e)
         {
+            log.Info("TimerFixation Ticked");
             _timerFixation.Stop();
             _timerInterstimulus.Start();
 
@@ -87,9 +112,14 @@ namespace VerticalDominance
         }
 
 
-
+        /// <summary>
+        /// Interstimulus timer tick event. Indicates the end of the interstimulus interval.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerInterstimulus_Tick(object? sender, EventArgs e)
         {
+            log.Info("TimerInterstimulus Ticked");
             _timerInterstimulus.Stop();
 
             (StimSize, StimSize) targets = this._test.GetTrialTargets();
@@ -102,8 +132,15 @@ namespace VerticalDominance
             _timerTargets.Start();
         }
 
+
+        /// <summary>
+        /// Targets timer tick event. Indicates the end of the targets interval.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerTargets_Tick(object? sender, EventArgs e)
         {
+            log.Info("TimerTargets Ticked");
             _timerTargets.Stop();
 
             // Remove targets
@@ -119,8 +156,15 @@ namespace VerticalDominance
             _stopWatch.Restart();
         }
 
+
+        /// <summary>
+        /// Mask timer tick event. Indicates the end of the mask interval.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerMask_Tick(object? sender, EventArgs e)
         {
+            log.Info("TimerMask Ticked");
             _timerMask.Stop();
             _stopWatch.Stop();
 
@@ -135,8 +179,15 @@ namespace VerticalDominance
             _timerFeedback.Start();
         }
 
+
+        /// <summary>
+        /// Feedback timer tick event. Indicates the end of the feedback interval.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerFeedback_Tick(object? sender, EventArgs e)
         {
+            log.Info("TimerFeedback Ticked");
             _timerFeedback.Stop();
 
             // Remove feedback
@@ -145,8 +196,15 @@ namespace VerticalDominance
             _timerIntertrial.Start();
         }
 
+
+        /// <summary>
+        /// Intertrial timer tick event. Indicates the end of the intertrial tick event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerIntertrial_Tick(object? sender, EventArgs e)
         {
+            log.Info("TimerIntertrial Ticked");
             _timerIntertrial.Stop();
 
             if (_isTestRunning)
@@ -162,7 +220,6 @@ namespace VerticalDominance
                     _isTestRunning = false;
                     this.FinishTest();
                 }
-
             }
         }
 
@@ -174,6 +231,8 @@ namespace VerticalDominance
         /// <param name="e"></param>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            log.Info($"Key pressed: {e.Key}");
+
             // Check if Spacebar pressed and test is not running.
             if (e.Key == Key.Space && !_isTestRunning)
             {
@@ -191,15 +250,12 @@ namespace VerticalDominance
 
                 if (this._test.GetOrientation() == enums.Orientation.horizontal)
                 {
-                    // TODO: Do we want to capture keys for the incorrect orientation and record the response?
                     // Check for Left/Right Arrow keys
                     if (e.Key == Key.Left || e.Key == Key.Right)
                     {
                         validResponse = true;
                         responseCorrect = this._test.EvaluateResponse(responseTime, e.Key);
                     }
-
-
                 }
                 else
                 {
@@ -222,9 +278,7 @@ namespace VerticalDominance
                     ShowFeedback(responseCorrect);
                     this._timerFeedback.Start();
                 }
-
             }
-
         }
 
 
@@ -241,6 +295,7 @@ namespace VerticalDominance
             // Fixation start
             _timerFixation.Start();
             DrawFixation();
+            log.Info("Test is starting.");
         }
 
         /// <summary>
@@ -327,7 +382,6 @@ namespace VerticalDominance
         /// <param name="e"></param>
         private void CanvasTest_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            // TODO: Make it so it actually hides the cursor.
             if (CanvasTest.IsMouseOver)
             {
                 Cursor = Cursors.None;
@@ -388,6 +442,12 @@ namespace VerticalDominance
             this.Close();
         }
 
+
+        /// <summary>
+        /// Test window closing event. Passes the spatial testing data to listeners.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             EventHandler<TestEventArgs> handler = TestWindowClosing;

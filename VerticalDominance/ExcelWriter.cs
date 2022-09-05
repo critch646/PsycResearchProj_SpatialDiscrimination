@@ -10,11 +10,20 @@ using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Vml.Office;
+using log4net;
 
 namespace VerticalDominance
 {
     public class ExcelWriter
     {
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+
+        public ExcelWriter()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
 
         /// <summary>
         /// Takes passed spatial test and writes its data to an Excel workbook (creating a new one if it doesn't
@@ -32,6 +41,7 @@ namespace VerticalDominance
             if (!File.Exists(filepath))
             {
                 CreateSpreadsheetWorkbook(filepath);
+                log.Info($"File exists {filepath}");
             }
 
             // Create a spreadsheet document
@@ -46,17 +56,18 @@ namespace VerticalDominance
             catch (OpenXmlPackageException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                log.Error($"Opening workbook: {ex.Message}");
                 return false;
             }
             catch (System.IO.IOException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                log.Error($"Opening workbook: {ex.Message}");
                 return false;
             }
 
             // Insert new worksheet part
             WorksheetPart newWorksheetPart = InsertWorksheet(spreadsheetDocument.WorkbookPart, test.ParticipantID.ToString());
-
 
             // Insert labels
             newWorksheetPart = InsertWorksheetLabels(newWorksheetPart);
@@ -191,6 +202,7 @@ namespace VerticalDominance
             catch (OpenXmlPackageException ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                log.Error($"Adding datetime style: {ex.Message}");
             }
 
 

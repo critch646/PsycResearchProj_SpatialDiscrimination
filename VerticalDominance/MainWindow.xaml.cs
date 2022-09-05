@@ -100,7 +100,6 @@ namespace VerticalDominance
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex);
                 log.Error(ex);
             }
 
@@ -197,13 +196,13 @@ namespace VerticalDominance
 
             if (this._spatialTest != null && this._spatialTest.TestFinished is true)
             {
-                System.Diagnostics.Debug.WriteLine($"Test finished!");
                 ExcelWriter writer = new ExcelWriter();
                 writer.WriteTestToSheet(this._preferences.SpreadsheetDirectory, this._spatialTest);
                 IncrementPID();
+                log.Info("Test exited after being completed.");
             } else
             {
-                System.Diagnostics.Debug.WriteLine($"Test not finished!");
+                log.Info("Test exited before being completed.");
             }
         }
 
