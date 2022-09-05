@@ -68,7 +68,6 @@ namespace VerticalDominance
             this._fixation = new FixationShape($"{nameof(FixationShape)}1");
             this._maskShape1 = new MaskShape($"{nameof(MaskShape)}1", MaskSize);
             this._maskShape2 = new MaskShape($"{nameof(MaskShape)}2", MaskSize);
-            // TODO: Add Luke's instructions
 
         }
 

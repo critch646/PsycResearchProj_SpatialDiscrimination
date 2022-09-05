@@ -168,7 +168,7 @@ namespace VerticalDominance
             {
                 if (workbookPart.WorkbookStylesPart == null)
                 {
-                    WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>(); // TODO: DocumentFormat.OpenXml.Packaging.OpenXmlPackageException: 'Only one instance of the type is allowed for this parent.'
+                    WorkbookStylesPart stylesPart = workbookPart.AddNewPart<WorkbookStylesPart>();
 
                     stylesPart.Stylesheet = new Stylesheet
                     {

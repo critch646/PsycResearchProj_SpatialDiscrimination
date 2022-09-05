@@ -40,7 +40,6 @@ namespace VerticalDominance
             this.TestFinished = false;
 
             // Generate test
-            // TODO: randomize starting orientation
             this.GenerateTest();
         }
 
