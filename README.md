@@ -12,9 +12,8 @@ Essentially, in the case of:
 
 We want to determine whether or not dominant people can more accurately discern these differences on a vertical axis, than those who are not dominant.
 
-## Install - TODO
-
-## Usage - TODO
+## Install
+If you do not have the dependencies installed, run `setup.exe` and it will installed the dependencies as well as the Spatial Tester App. 
 
 
 ## Contributors
