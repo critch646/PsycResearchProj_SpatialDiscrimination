@@ -21,12 +21,15 @@
                     <Paragraph />
                     <Paragraph />
                     <Paragraph>
-                        <Run>Instructions</Run>
+                        <Bold>Instructions</Bold>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run>Two circles will appear either on the horizontal or vertical axis. It is your task to determine which circle is larger and hit the arrow key corresponding in the direction of the larger circle after the circles are covered by grey squares.</Run>
                     </Paragraph>
                     <Paragraph>
                         <Run>Press</Run>
                         <Bold>Spacebar</Bold>
-                        <Run> to start</Run>
+                        <Run> to start the test.</Run>
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
