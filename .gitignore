@@ -151,3 +151,4 @@ dmypy.json
 /SpatialDiscriminationApp/.vs
 /SpatialDiscriminationApp/bin
 /SpatialDiscriminationApp/obj
+/.vscode/settings.json
