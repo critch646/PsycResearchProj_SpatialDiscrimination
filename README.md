@@ -44,8 +44,9 @@ Once all trials are completed, the `Test Window` will close and return to the `M
 Once returned to the `Main Window` the app will record the test results in an Excel spreadsheet.
 
 ## Installation
-1. Download both the `setup.exe` and `Setup.Spatial.Tester.msi` installers.
-2. Run the `setup.exe` installer. This will install both the Spatial Discrimination App and its dependencies.
+1. Go to the repo's [Releases](https://github.com/critch646/PsycResearchProj_SpatialDiscrimination/releases) page and select the latest release.
+2. Download both the `setup.exe` and `Setup.Spatial.Tester.msi` installers.
+3. Run the `setup.exe` installer. This will install both the Spatial Discrimination App and its dependencies.
 
 
 ## Usage
